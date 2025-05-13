@@ -5,9 +5,64 @@ service UserService {
     rpc HealthCheck(Empty) returns (HealthCheckResponse);
     rpc CreateUser(UserRequest) returns (UserResponse);
     rpc Login(LoginRequest) returns (UserResponse);
-    rpc User(Empty) returns (UserResponse);
+    //Customers
+    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (UserResponse);
+    rpc GetCustomer(GetRequest) returns (UserResponse);
+    rpc GetCustomers(Empty) returns (UserResponse);
+    rpc CheckCustomerExists(CheckCustomerRequest) returns (UserResponse);
+    rpc VerifyCustomer(VerifyCustomerRequest) returns (UserResponse);
+    rpc SendTokenVerification(SendTokenRequest) returns (UserResponse);
+    rpc CustomerOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
+    //Riders
+    rpc CreateUpdateRider(CreateOrUpdateRider) returns (UserResponse);
+    rpc GetRider(GetRequest) returns (UserResponse);
+    rpc GetRiders(Empty) returns (UserResponse);
+    //Businesses
+    rpc CreateUpdateBusiness(Empty) returns (UserResponse);
+    rpc GetBusiness(GetRequest) returns (UserResponse);
+
 }
 
+
+//Customer Requests
+message CustomerOAuthProviderRequest {
+    string provider = 1;
+    string token = 2;
+    string device_token = 3;
+    string medium = 4;
+    float latitude = 5;
+    float longitude = 6;
+    map<string, string> address = 7;
+}
+message CheckCustomerRequest {
+    string type = 1;
+    string with = 2;
+}
+message SendTokenRequest {
+    optional string id = 1;
+    string type = 2;
+    string for = 3;
+}
+message VerifyCustomerRequest {
+    string type = 1;
+    string user = 2;
+    string token = 3;
+    string for = 4;  //email, phone number
+}
+
+message CreateUpdateCustomerRequest {
+    optional string id = 1;
+    string email = 2;
+    string password = 3;
+    string phone = 4;
+    string firstname = 5;
+    string lastname = 6;
+    map<string,string> address = 7;
+    string deviceToken = 8;
+    string deviceVersion = 9;
+    string referral = 10;
+}
+//
 message Empty {}
 
 message HealthCheckResponse {
@@ -28,16 +83,13 @@ message User {
     string number = 5;
 }
 // Response
+
+
 message UserResponse {
     int32 status = 1;
     bool success = 2;
     string message = 3;
-    message Data {
-        string status = 1;
-        optional User user = 2;
-        optional bool newDevice = 4;
-    }
-    optional Data data = 4;
+    map<string,string > data = 4;
     optional string error = 5;
 }
 //Requests
@@ -47,7 +99,37 @@ message UserRequest {
     string password = 3;
     string phone = 4;
 }
+message CreateOrUpdateRider {
+    optional string id = 1;
+    optional string email = 2;
+    string phone = 3;
+}
+message GetRequest {
+    string id = 1;
+}
 
+message CreateCustomer {
+    string firstName = 1;
+    string lastName = 2;
+    string email = 3;
+    string phone = 4;
+    string latitude = 5;
+    string longitude = 6;
+    string houseNumber = 7;
+    string street = 8;
+    string nearestBusStop = 9;
+    string city = 10;
+    string state = 11;
+    string country = 12;
+    string deviceToken = 13;
+    string deviceVersion = 14;
+    string referralCode = 15;
+    string password = 16;
+    optional string stateId = 17;
+    optional string cityId = 18;
+    optional string lgaId = 19;
+    map<string, string> metadata = 20;
+}
 message LoginRequest {
     string username = 1;
     string password = 2;
