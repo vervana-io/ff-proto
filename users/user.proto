@@ -40,14 +40,13 @@ message CheckCustomerRequest {
 }
 message SendTokenRequest {
     optional string id = 1;
-    string type = 2;
-    string for = 3;
+    string type = 2; // 'email' or 'phone'
+    string user = 3; // email address or phone number
 }
 message VerifyCustomerRequest {
-    string type = 1;
-    string user = 2;
+    string type = 1; // 'email' or 'phone'
+    string user = 2; // email address or phone number
     string token = 3;
-    string for = 4;  //email, phone number
 }
 
 message CreateUpdateCustomerRequest {
