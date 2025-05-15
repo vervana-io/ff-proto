@@ -36,7 +36,7 @@ message CustomerOAuthProviderRequest {
 }
 message CheckCustomerRequest {
     string type = 1;
-    string with = 2;
+    string user = 2;
 }
 message SendTokenRequest {
     optional string id = 1;
