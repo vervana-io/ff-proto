@@ -4,15 +4,15 @@ package users;
 service UserService {
     rpc HealthCheck(Empty) returns (HealthCheckResponse);
     rpc CreateUser(UserRequest) returns (UserResponse);
-    rpc Login(LoginRequest) returns (UserResponse);
     //Customers
-    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (UserResponse);
-    rpc GetCustomer(GetRequest) returns (UserResponse);
+    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (CustomerResponse);
+    rpc CustomerLogin(LoginRequest) returns (CustomerResponse);
+    rpc GetCustomer(GetRequest) returns (CustomerResponse);
     rpc GetCustomers(Empty) returns (UserResponse);
     rpc CheckCustomerExists(CheckCustomerRequest) returns (UserResponse);
     rpc VerifyCustomer(VerifyCustomerRequest) returns (UserResponse);
     rpc SendTokenVerification(SendTokenRequest) returns (UserResponse);
-    rpc CustomerOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
+    rpc CustomerOAuthProvider(CustomerOAuthProviderRequest) returns (CustomerResponse);
     //Riders
     rpc CreateUpdateRider(CreateOrUpdateRider) returns (UserResponse);
     rpc GetRider(GetRequest) returns (UserResponse);
@@ -61,6 +61,20 @@ message CreateUpdateCustomerRequest {
     string deviceVersion = 9;
     string referral = 10;
 }
+
+message CustomerResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    message Data {
+        User user = 1;
+        Customer customer = 2;
+        Wallet wallet = 3;
+        map<string, string > settings = 4;
+    }
+    Data data = 5;
+}
 //
 message Empty {}
 
@@ -76,13 +90,30 @@ message HealthCheckResponse {
 //Data
 message User {
     string id = 1;
-    string name = 2;
+    string username = 2;
     string email = 3;
-    string password = 4;
-    string number = 5;
+    string phone = 4;
+    string latitude = 5;
+    string longitude = 6;
+    string device_version = 7;
+}
+
+message Customer {
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    map<string, string> phones = 4;
+    string referral_code = 5;
+    string avatar = 6;
+}
+
+message Wallet {
+    string id = 1;
+    string accountName = 2;
+    string accountNumber =3;
+    double balance = 4;
 }
 // Response
-
 
 message UserResponse {
     int32 status = 1;
