@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package addresses;
+
+service AddressService {
+    rpc LocationData(GetLocationRequest) returns (CountryResponse);
+    rpc AddUpdateAddress(AddUpdateAddressRequest) returns (Response);
+    rpc GetAddress(GetRequest) returns (Address);
+    rpc DeleteAddress(GetRequest) returns (Response);
+    rpc GetUserAddresses(GetRequest) returns (AddressListResponse);
+}
+
+message Empty {}
+
+message GetRequest {
+    string id = 1;
+}
+//Address
+message AddUpdateAddressRequest {
+    string userId = 1;
+    string countryId = 2;
+    string stateId = 3;
+    string lgaId = 4;
+    string houseNumber = 5;
+    string nearest_bus_stop = 6;
+    string city = 7;
+    string state = 8;
+    string country = 9;
+    string latitude = 10;
+    string longitude = 11;
+    bool isPrimary = 12;
+    optional string id = 13;
+}
+
+//Location Request
+message GetLocationRequest{
+    enum DataType {
+        COUNTRY = 1;
+        STATE = 2;
+        CITY = 3;
+        LGA = 4;
+    }
+    int32 page = 1;
+    int32 per_page = 2;
+    DataType type = 3;
+    optional string country_id = 4;
+    optional string state_id = 5;
+    optional string city_id = 6;
+    optional string status = 7;
+}
+message Response {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    map<string,string> data = 5;
+}
+message CountryResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    Data data = 5;
+    message Data {
+        optional Country country = 1;
+        optional State state = 2;
+        map<string,string> metadata = 3;
+    }
+}
+
+message AddressListResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    repeated Address data = 5;
+}
+
+message AddressResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    Address data = 5;
+}
+message Country {
+    string id = 1;
+    string name = 2;
+    string code = 3;
+    string currency = 4;
+    string latitude = 5;
+    string longitude = 6;
+    map<string, string > metadata = 7;
+}
+
+message State {
+    string id = 1;
+    string name = 2;
+    string country_id = 3;
+    string capital = 4;
+    string latitude = 5;
+    string longitude = 6;
+    map<string,string> metadata = 7;
+}
+
+message Address {
+    string id = 1;
+    Country country = 2;
+    State state = 3;
+    map<string,string> city = 4;
+    map<string,string> lga = 5;
+    string houseNumber = 6;
+    string street = 7;
+    string nearestBusStop = 8;
+    string latitude = 9;
+    string longitude = 10;
+    string isPrimary = 11;
+    string status = 12;
+    map<string,string> metadata = 21;
+
+}
