@@ -3,28 +3,27 @@ package users;
 
 service UserService {
     rpc HealthCheck(Empty) returns (HealthCheckResponse);
-    rpc CreateUser(UserRequest) returns (UserResponse);
+    rpc CreateUser(UserRequest) returns (Response);
+    rpc CheckUserExists(CheckUserRequest) returns (Response);
+    rpc VerifyUser(VerifyUserRequest) returns (Response);
+    rpc SendTokenVerification(SendTokenRequest) returns (Response);
+    rpc Login(LoginRequest) returns (UserResponse);
+    rpc GetUser(GetRequest) returns (UserResponse);
+    rpc GetUsers(Empty) returns (UserResponse);
+    rpc UserOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
+
     //Customers
-    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (CustomerResponse);
-    rpc CustomerLogin(LoginRequest) returns (CustomerResponse);
-    rpc GetCustomer(GetRequest) returns (CustomerResponse);
-    rpc GetCustomers(Empty) returns (UserResponse);
-    rpc CheckCustomerExists(CheckCustomerRequest) returns (UserResponse);
-    rpc VerifyCustomer(VerifyCustomerRequest) returns (UserResponse);
-    rpc SendTokenVerification(SendTokenRequest) returns (UserResponse);
-    rpc CustomerOAuthProvider(CustomerOAuthProviderRequest) returns (CustomerResponse);
+    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (UserResponse);
+
     //Riders
-    rpc CreateUpdateRider(CreateOrUpdateRider) returns (UserResponse);
-    rpc GetRider(GetRequest) returns (UserResponse);
-    rpc GetRiders(Empty) returns (UserResponse);
+    rpc CreateUpdateRider(CreateUpdateRiderRequest) returns (UserResponse);
     //Businesses
-    rpc CreateUpdateBusiness(Empty) returns (UserResponse);
-    rpc GetBusiness(GetRequest) returns (UserResponse);
+    rpc CreateUpdateSeller(CreateUpdateSellerRequest) returns (UserResponse);
 
 }
 
 
-//Customer Requests
+//User Requests
 message CustomerOAuthProviderRequest {
     string provider = 1;
     string token = 2;
@@ -34,49 +33,42 @@ message CustomerOAuthProviderRequest {
     float longitude = 6;
     map<string, string> address = 7;
 }
-message CheckCustomerRequest {
-    string type = 1;
+message CheckUserRequest {
+    string with = 1;
     string user = 2;
+    UserType user_type = 3;
 }
 message SendTokenRequest {
     optional string id = 1;
-    string type = 2; // 'email' or 'phone'
+    string with = 2; // 'email' or 'phone'
     string user = 3; // email address or phone number
+    UserType user_type = 4;
 }
-message VerifyCustomerRequest {
-    string type = 1; // 'email' or 'phone'
+message VerifyUserRequest {
+    string with = 1; // 'email' or 'phone'
     string user = 2; // email address or phone number
     string token = 3;
 }
 
-message CreateUpdateCustomerRequest {
-    optional string id = 1;
-    string email = 2;
-    string password = 3;
-    string phone = 4;
-    string firstname = 5;
-    string lastname = 6;
-    map<string,string> address = 7;
-    string deviceToken = 8;
-    string deviceVersion = 9;
-    string referral = 10;
-}
-
-message CustomerResponse {
+message UserResponse {
     int32 status = 1;
     bool success = 2;
     string message = 3;
     optional string error = 4;
     message Data {
         User user = 1;
-        Customer customer = 2;
+        optional Customer customer = 2;
         Wallet wallet = 3;
         map<string, string > settings = 4;
+        optional Rider rider = 5;
+        optional Seller seller = 6;
+        optional Personnel personnel = 7;
     }
     Data data = 5;
 }
 //
 message Empty {}
+
 
 message HealthCheckResponse {
     enum ServingStatus {
@@ -96,6 +88,9 @@ message User {
     string latitude = 5;
     string longitude = 6;
     string device_version = 7;
+    string compliance_status = 8;
+    string created_at = 9;
+    string updated_at = 10;
 }
 
 message Customer {
@@ -115,7 +110,7 @@ message Wallet {
 }
 // Response
 
-message UserResponse {
+message Response {
     int32 status = 1;
     bool success = 2;
     string message = 3;
@@ -129,10 +124,100 @@ message UserRequest {
     string password = 3;
     string phone = 4;
 }
-message CreateOrUpdateRider {
+//Customer
+message CreateUpdateCustomerRequest {
+    optional string id = 1;
+    string email = 2;
+    string password = 3;
+    string phone = 4;
+    string firstname = 5;
+    string lastname = 6;
+    map<string,string> address = 7;
+    string deviceToken = 8;
+    string deviceVersion = 9;
+    string referral = 10;
+}
+
+message CreateUpdateRiderRequest {
     optional string id = 1;
     optional string email = 2;
     string phone = 3;
+    string password = 6;
+    string first_name = 7;
+    string last_name = 8;
+    string latitude = 9;
+    string longitude = 10;
+    int32 contract_type = 11;
+    repeated int32 shift_data = 12;
+    optional string next_of_kin = 13;
+    optional string next_of_kin_phone_number = 14;
+    bytes drivers_license = 15;
+    optional string drivers_license_base64 = 16;
+    optional int32 vehicle_type = 17;
+    optional string vehicle_brand = 18;
+    optional string vehicle_plate_number = 19;
+    bytes vehicle_picture = 20;
+    optional string vehicle_picture_base64 = 21;
+    optional string first_guarantor_name = 22;
+    optional string first_guarantor_phone_number = 23;
+    optional string second_guarantor_name = 24;
+    optional string second_guarantor_phone_number = 25;
+    optional string previous_place_of_work = 26;
+    optional string previous_place_of_work_duration = 27;
+    optional string bank_name = 28;
+    optional string bank_code = 29;
+    optional string account_number = 30;
+    optional string account_name = 31;
+    bytes selfie = 32;
+    optional string selfie_base64 = 33;
+    optional string device_token = 34;
+    optional string device_version = 35;
+}
+
+message CreateUpdateSellerRequest {
+    optional string country_id = 1;
+    optional string state_id = 2;
+    optional string city_id = 3;
+    optional string lga_id = 4;
+    // string username = 5; // commented out as in original
+    string phone = 6;
+    string email = 7;
+    string password = 8;
+    string latitude = 9;
+    string longitude = 10;
+    int32 category_id = 11;
+    string business_name = 12;
+    optional string firstname = 13;
+    optional string othername = 14;
+    optional string lastname = 15;
+    optional string individual_full_name = 16;
+    string individual_address = 17;
+    bytes individual_selfie = 18;
+    string individual_selfie_base64 = 19;
+    bytes individual_identity_card = 20;
+    string individual_identity_card_base64 = 21;
+    string business_phone_number = 22;
+    optional string business_email = 23;
+    string license_number = 24;
+    string opening_hours = 25;
+    string closing_hours = 26;
+    string business_street = 27;
+    string business_house_number = 28;
+    string business_nearest_bus_stop = 29;
+    bytes business_logo = 30;
+    string business_logo_base64 = 31;
+    bytes business_thumbnail = 32;
+    string business_thumbnail_base64 = 33;
+    bytes business_certificate = 34;
+    string business_certificate_base64 = 35;
+    bytes business_memorandum = 36;
+    string business_memorandum_base64 = 37;
+    bytes business_utility_bill = 38;
+    string business_utility_bill_base64 = 39;
+    bytes business_building = 40;
+    string business_building_base64 = 41;
+    string device_token = 42;
+    string device_version = 43;
 }
 message GetRequest {
     string id = 1;
@@ -160,9 +245,87 @@ message CreateCustomer {
     optional string lgaId = 19;
     map<string, string> metadata = 20;
 }
+enum UserType {
+    USER_TYPE_CUSTOMER = 1;
+    USER_TYPE_RIDER = 2;
+    USER_TYPE_VENDOR = 3;
+    USER_TYPE_ADMIN = 4;
+}
 message LoginRequest {
+
     string username = 1;
     string password = 2;
-    string deviceId = 3;
-    string deviceToken = 4;
+    string device_version = 3;
+    string device_token = 4;
+    UserType user_type = 5;
+}
+
+message Rider {
+    string id = 1;
+    map<string, string> phones = 2;
+    string firstname = 4;
+    string lastname = 5;
+    string latitude = 6;
+    string longitude = 7;
+    int32 contract_type = 8;
+    repeated int32 shift_data = 9;
+    optional string next_of_kin = 10;
+    optional string next_of_kin_phone_number = 11;
+    optional string drivers_license = 12;
+    optional int32 vehicle_type = 13;
+    optional string vehicle_brand = 14;
+    optional string vehicle_plate_number = 15;
+    optional string vehicle_picture_base64 = 16;
+    optional string first_guarantor_name = 17;
+    optional string first_guarantor_phone_number = 18;
+    optional string second_guarantor_name = 19;
+    optional string second_guarantor_phone_number = 20;
+    optional string previous_place_of_work = 21;
+    optional string previous_place_of_work_duration = 22;
+    optional string bank_name = 23;
+    optional string bank_code = 24;
+    optional string account_number = 25;
+    optional string account_name = 26;
+    optional string selfie = 27;
+}
+
+message Seller {
+    string id = 1;
+    string status = 2;
+    optional string plan = 3;
+    optional int32 tier = 4;
+    string email = 5;
+    repeated string phones = 6;
+    string user_id = 7;
+    string latitude = 8;
+    string longitude = 9;
+    string category_id = 10;
+    string business_name = 11;
+    optional string individual_full_name = 15;
+    string individual_address = 16;
+    optional string individual_selfie = 17;
+    optional string individual_identity_card = 18;
+    optional string business_email = 20;
+    string license_number = 21;
+    string opening_hours = 22;
+    string closing_hours = 23;
+    optional string business_logo = 27;
+    optional string business_thumbnail = 28;
+    optional string business_certificate = 29;
+    optional string business_memorandum = 30;
+    optional string business_utility_bill = 31;
+    optional string business_building = 32;
+}
+
+message Personnel {
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    string othername = 4;
+    string user_id = 5;
+    string business_id = 6;
+    string avatar = 7;
+    string compliance = 8;
+    string status = 9;
+    string created_at = 10;
 }
