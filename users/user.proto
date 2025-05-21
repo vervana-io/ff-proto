@@ -35,11 +35,6 @@ enum OTPType {
     EMAIL_CONFIRMATION =6;
 }
 
-message ChangePasswordRequest {
-    string userId = 1;
-    string oldPassword = 2;
-    string newPassword = 3;
-}
 message ResetPasswordRequest {
     string user = 1;
     string otp = 2;
