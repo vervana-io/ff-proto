@@ -22,7 +22,25 @@ service UserService {
 
 }
 
+enum OTPType {
+    RESET_PASSWORD = 1;
+    CONFIRM_NEW_DEVICE = 2;
+    EMAIL_VERIFICATION = 3;
+    TRANSACTION_PIN = 4;
+    PHONE_VERIFICATION = 7; // use for just verifying phone number
+    EMAIL_CONFIRMATION =6;
+}
 
+message ChangePasswordRequest {
+    string userId = 1;
+    string oldPassword = 2;
+    string newPassword = 3;
+}
+message ResetPasswordRequest {
+    string user = 1;
+    string otp = 2;
+    string password = 3;
+}
 //User Requests
 message CustomerOAuthProviderRequest {
     string provider = 1;

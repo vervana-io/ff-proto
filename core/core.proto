@@ -3,6 +3,7 @@ syntax = "proto3";
 package core;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 
 // Messages for Category entity
 message Category {
@@ -21,34 +22,12 @@ message SaveCategoryRequest {
   optional string franchise_id = 5;
 }
 
-message SaveCategoryResponse {
+message ListResponse {
   int32 status = 1;
   string message = 2;
   optional string error = 3;
   bool success = 4;
-  Category category = 5;
-}
-
-message GetCategoryResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Category category = 5;
-}
-
-message SearchCategoriesRequest {
-  string query = 1;
-  int32 page_size = 2;
-  int32 page_token = 3;
-}
-
-message SearchCategoriesResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  repeated Category categories = 5;
+  google.protobuf.ListValue data = 5;
   int32 next_page_token = 6;
 }
 
@@ -93,36 +72,20 @@ message SaveProductRequest {
   optional string allergies = 14;
   int32 status = 15;
 }
-
-message SaveProductResponse {
+message ProductResponse {
   int32 status = 1;
   string message = 2;
   optional string error = 3;
   bool success = 4;
-  Product product = 5;
+  Product data = 5;
 }
 
-message GetProductResponse {
+message ProductListResponse {
   int32 status = 1;
   string message = 2;
   optional string error = 3;
   bool success = 4;
-  Product product = 5;
-}
-
-message SearchProductsRequest {
-  string query = 1;
-  string category_id = 2;
-  int32 page_size = 3;
-  int32 page_token = 4;
-}
-
-message SearchProductsResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  repeated Product products = 5;
+  repeated Product data = 5;
   int32 next_page_token = 6;
 }
 
@@ -136,6 +99,7 @@ message Response {
 
 message GetRequest {
   string id = 1;
+  optional string user_id = 2;
 }
 
 // Messages for CouponBusiness entity
@@ -146,29 +110,6 @@ message CouponBusiness {
   int32 status = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
-}
-
-message SaveCouponBusinessRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string coupon_id = 2;
-  string business_id = 3;
-  int32 status = 4;
-}
-
-message SaveCouponBusinessResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponBusiness coupon_business = 5;
-}
-
-message GetCouponBusinessResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponBusiness coupon_business = 5;
 }
 
 // Messages for ProductAddon entity
@@ -188,14 +129,6 @@ message SaveProductAddonRequest {
   optional string name = 3;
   double price = 4;
   int32 status = 5;
-}
-
-message SaveProductAddonResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  ProductAddon product_addon = 5;
 }
 
 message GetProductAddonResponse {
@@ -275,33 +208,6 @@ message OrderLog {
   google.protobuf.Timestamp updated_at = 10;
 }
 
-message SaveOrderLogRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string order_id = 2;
-  string admin_id = 3;
-  string customer_id = 4;
-  string seller_id = 5;
-  string rider_id = 6;
-  int32 event_type = 7;
-  int32 status = 8;
-}
-
-message SaveOrderLogResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderLog order_log = 5;
-}
-
-message GetOrderLogResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderLog order_log = 5;
-}
-
 // Messages for FoodClass entity
 message FoodClass {
   string id = 1;
@@ -321,18 +227,6 @@ message SaveFoodClassRequest {
   optional int32 status = 4;
 }
 
-message SaveFoodClassResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  FoodClass food_class = 5;
-}
-
-message GetFoodClassResponse {
-  FoodClass food_class = 1;
-}
-
 // Messages for OrderProduct entity
 message OrderProduct {
   string id = 1;
@@ -345,70 +239,6 @@ message OrderProduct {
   int32 status = 8;
   google.protobuf.Timestamp created_at = 9;
   google.protobuf.Timestamp updated_at = 10;
-}
-
-message SaveOrderProductRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string order_id = 2;
-  string product_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  double discount = 6;
-  optional string special_note = 7;
-  int32 status = 8;
-}
-
-message SaveOrderProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProduct order_product = 5;
-}
-
-message GetOrderProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProduct order_product = 5;
-}
-
-// Messages for OrderProductAddon entity
-message OrderProductAddon {
-  string id = 1;
-  string order_product_id = 2;
-  string product_addon_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  int32 status = 6;
-  google.protobuf.Timestamp created_at = 7;
-  google.protobuf.Timestamp updated_at = 8;
-}
-
-message SaveOrderProductAddonRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string order_product_id = 2;
-  string product_addon_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  int32 status = 6;
-}
-
-message SaveOrderProductAddonResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProductAddon order_product_addon = 5;
-}
-
-message GetOrderProductAddonResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProductAddon order_product_addon = 5;
 }
 
 // Messages for Order entity
@@ -456,22 +286,6 @@ message SaveOrderRequest {
   int32 status = 17;
 }
 
-message SaveOrderResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Order order = 5;
-}
-
-message GetOrderResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Order order = 5;
-}
-
 // Messages for Transaction entity
 message Transaction {
   string id = 1;
@@ -503,22 +317,6 @@ message SaveTransactionRequest {
   google.protobuf.Timestamp transaction_date = 10;
 }
 
-message SaveTransactionResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Transaction transaction = 5;
-}
-
-message GetTransactionResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Transaction transaction = 5;
-}
-
 // Messages for Refund entity
 message Refund {
   string id = 1;
@@ -544,21 +342,6 @@ message SaveRefundRequest {
   google.protobuf.Timestamp refund_date = 7;
 }
 
-message SaveRefundResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Refund refund = 5;
-}
-
-message GetRefundResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Refund refund = 5;
-}
 
 // Messages for Tag entity
 message Tag {
@@ -570,64 +353,6 @@ message Tag {
   optional string updated_by = 6;
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
-}
-
-message SaveTagRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string name = 2;
-  optional string description = 3;
-  int32 status = 4;
-}
-
-message SaveTagResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Tag tag = 5;
-}
-
-message GetTagResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Tag tag = 5;
-}
-
-// Messages for RiderOrderMedia entity
-message RiderOrderMedia {
-  string id = 1;
-  string rider_order_id = 2;
-  string media_url = 3;
-  int32 media_type = 4;
-  int32 status = 5;
-  google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp updated_at = 7;
-}
-
-message SaveRiderOrderMediaRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string rider_order_id = 2;
-  string media_url = 3;
-  int32 media_type = 4;
-  int32 status = 5;
-}
-
-message SaveRiderOrderMediaResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  RiderOrderMedia rider_order_media = 5;
-}
-
-message GetRiderOrderMediaResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  RiderOrderMedia rider_order_media = 5;
 }
 
 // Messages for RiderOrder entity
@@ -643,34 +368,6 @@ message RiderOrder {
   google.protobuf.Timestamp delivered_at = 9;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
-}
-
-message SaveRiderOrderRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string rider_id = 2;
-  string order_id = 3;
-  int32 status = 4;
-  optional string cancellation_reason = 5;
-  optional string rejection_reason = 6;
-  google.protobuf.Timestamp accepted_at = 7;
-  google.protobuf.Timestamp picked_up_at = 8;
-  google.protobuf.Timestamp delivered_at = 9;
-}
-
-message SaveRiderOrderResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  RiderOrder rider_order = 5;
-}
-
-message GetRiderOrderResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  RiderOrder rider_order = 5;
 }
 
 // Messages for Rating entity
@@ -698,90 +395,6 @@ message SaveRatingRequest {
   google.protobuf.Timestamp rating_date = 7;
 }
 
-message SaveRatingResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Rating rating = 5;
-}
-
-message GetRatingResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Rating rating = 5;
-}
-
-// Messages for ProductCategory entity
-message ProductCategory {
-  string id = 1;
-  string product_id = 2;
-  string category_id = 3;
-  int32 status = 4;
-  google.protobuf.Timestamp created_at = 5;
-  google.protobuf.Timestamp updated_at = 6;
-}
-
-message SaveProductCategoryRequest {
-  optional string id = 1;
-  string product_id = 2;
-  string category_id = 3;
-  int32 status = 4;
-}
-
-message SaveProductCategoryResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  ProductCategory product_category = 5;
-}
-
-message GetProductCategoryResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  ProductCategory product_category = 5;
-}
-
-// Messages for ProductMedia entity
-message ProductMedia {
-  string id = 1;
-  string product_id = 2;
-  string media_url = 3;
-  int32 media_type = 4;
-  int32 status = 5;
-  google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp updated_at = 7;
-}
-
-message SaveProductMediaRequest {
-  optional string id = 1;
-  string product_id = 2;
-  string media_url = 3;
-  int32 media_type = 4;
-  int32 status = 5;
-}
-
-message SaveProductMediaResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  ProductMedia product_media = 5;
-}
-
-message GetProductMediaResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  ProductMedia product_media = 5;
-}
-
 // Messages for CouponRedemption entity
 message CouponRedemption {
   string id = 1;
@@ -795,29 +408,6 @@ message CouponRedemption {
   google.protobuf.Timestamp updated_at = 9;
 }
 
-message SaveCouponRedemptionRequest {
-  optional string id = 1;
-  string coupon_id = 2;
-  string user_id = 3;
-  google.protobuf.Timestamp redemption_date = 4;
-  int32 status = 5;
-}
-
-message SaveCouponRedemptionResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponRedemption coupon_redemption = 5;
-}
-
-message GetCouponRedemptionResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponRedemption coupon_redemption = 5;
-}
 
 // Messages for Coupon entity
 message Coupon {
@@ -850,53 +440,12 @@ message SaveCouponRequest {
   int32 status = 10;
 }
 
-message SaveCouponResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  Coupon coupon = 5;
-}
-
 message GetCouponResponse {
   int32 status = 1;
   string message = 2;
   optional string error = 3;
   bool success = 4;
   Coupon coupon = 5;
-}
-
-// Messages for CouponProduct entity
-message CouponProduct {
-  string id = 1;
-  string coupon_id = 2;
-  string product_id = 3;
-  int32 status = 4;
-  google.protobuf.Timestamp created_at = 5;
-  google.protobuf.Timestamp updated_at = 6;
-}
-
-message SaveCouponProductRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string coupon_id = 2;
-  string product_id = 3;
-  int32 status = 4;
-}
-
-message SaveCouponProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponProduct coupon_product = 5;
-}
-
-message GetCouponProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  CouponProduct coupon_product = 5;
 }
 
 // Messages for Configuration entity
@@ -945,90 +494,69 @@ message GetListRequest {
   map<string, string > filters = 2;
   int32 page = 3;
   int32 size = 4;
+  optional string user_id = 5;
 }
 
+message ProductReviewRequest {
+  string user_id = 1;
+  string product_id = 2;
+  float rate = 3;
+  string message = 4;
+  map<string,string> metadata = 5;
+}
+
+message FavoriteProductRequest {
+  string id = 1;
+  string user_id = 2;
+  optional string customer_id = 3;
+}
+
+message SaveProductAddon {
+  string category_id = 1;
+  string name = 2;
+  int32 price = 3;
+  string id = 4;
+  message AddonCategory {
+    string product_id = 1;
+    string name = 2;
+    string description = 3;
+    bool required = 4;
+    optional string id = 5;
+  }
+}
 service CoreService {
-  rpc SaveCategory (SaveCategoryRequest) returns (SaveCategoryResponse);
-  rpc GetCategory (GetRequest) returns (GetCategoryResponse);
+  rpc SaveCategory (SaveCategoryRequest) returns (Response);
+  rpc GetCategory (GetRequest) returns (Response);
   rpc DeleteCategory (GetRequest) returns (Response);
-  rpc SearchCategories (GetListRequest) returns (SearchCategoriesResponse);
+  rpc GetCategories (GetListRequest) returns (Response);
 
-  rpc SaveProduct (SaveProductRequest) returns (SaveProductResponse);
-  rpc GetProduct (GetRequest) returns (GetProductResponse);
+  rpc SaveProduct (SaveProductRequest) returns (Response);
+  rpc GetProduct (GetRequest) returns (ProductResponse);
   rpc DeleteProduct (GetRequest) returns (Response);
-  rpc SearchProducts (GetListRequest) returns (SearchProductsResponse);
-
-  rpc SaveCouponBusiness (SaveCouponBusinessRequest) returns (SaveCouponBusinessResponse);
-  rpc GetCouponBusiness (GetRequest) returns (GetCouponBusinessResponse);
-  rpc DeleteCouponBusiness (GetRequest) returns (Response);
-
-  rpc SaveProductAddon (SaveProductAddonRequest) returns (SaveProductAddonResponse);
-  rpc GetProductAddon (GetRequest) returns (GetProductAddonResponse);
-  rpc DeleteProductAddon (GetRequest) returns (Response);
+  rpc GetProducts (GetListRequest) returns (ProductListResponse);
+  rpc GetProductRecommendation(GetListRequest) returns (ProductListResponse);
+  rpc AddProductReview(ProductReviewRequest) returns (Response);
+  rpc FavoriteProduct(FavoriteProductRequest) returns (Response);
 
   rpc SaveGroupOrder (SaveGroupOrderRequest) returns (SaveGroupOrderResponse);
   rpc GetGroupOrder (GetRequest) returns (GetGroupOrderResponse);
   rpc DeleteGroupOrder (GetRequest) returns (Response);
 
-  rpc SaveOrderLog (SaveOrderLogRequest) returns (SaveOrderLogResponse);
-  rpc GetOrderLog (GetRequest) returns (GetOrderLogResponse);
-  rpc DeleteOrderLog (GetRequest) returns (Response);
-
-  rpc SaveFoodClass (SaveFoodClassRequest) returns (SaveFoodClassResponse);
-  rpc GetFoodClass (GetRequest) returns (GetFoodClassResponse);
+  rpc SaveFoodClass (SaveFoodClassRequest) returns (Response);
+  rpc GetFoodClass (GetRequest) returns (Response);
   rpc DeleteFoodClass (GetRequest) returns (Response);
 
-  rpc SaveOrderProduct (SaveOrderProductRequest) returns (SaveOrderProductResponse);
-  rpc GetOrderProduct (GetRequest) returns (GetOrderProductResponse);
-  rpc DeleteOrderProduct (GetRequest) returns (Response);
-
-  rpc SaveOrderProductAddon (SaveOrderProductAddonRequest) returns (SaveOrderProductAddonResponse);
-  rpc GetOrderProductAddon (GetRequest) returns (GetOrderProductAddonResponse);
-  rpc DeleteOrderProductAddon (GetRequest) returns (Response);
-
-  rpc SaveOrder (SaveOrderRequest) returns (SaveOrderResponse);
-  rpc GetOrder (GetRequest) returns (GetOrderResponse);
+  rpc SaveOrder (SaveOrderRequest) returns (Response);
+  rpc GetOrder (GetRequest) returns (Response);
   rpc DeleteOrder (GetRequest) returns (Response);
 
-  rpc SaveTransaction (SaveTransactionRequest) returns (SaveTransactionResponse);
-  rpc GetTransaction (GetRequest) returns (GetTransactionResponse);
+  rpc SaveTransaction (SaveTransactionRequest) returns (Response);
+  rpc GetTransaction (GetRequest) returns (Response);
   rpc DeleteTransaction (GetRequest) returns (Response);
 
-  rpc SaveRefund (SaveRefundRequest) returns (SaveRefundResponse);
-  rpc GetRefund (GetRequest) returns (GetRefundResponse);
+  rpc SaveRefund (SaveRefundRequest) returns (Response);
+  rpc GetRefund (GetRequest) returns (Response);
   rpc DeleteRefund (GetRequest) returns (Response);
-
-  rpc SaveTag (SaveTagRequest) returns (SaveTagResponse);
-  rpc GetTag (GetRequest) returns (GetTagResponse);
-  rpc DeleteTag (GetRequest) returns (Response);
-
-  rpc SaveRiderOrderMedia (SaveRiderOrderMediaRequest) returns (SaveRiderOrderMediaResponse);
-  rpc GetRiderOrderMedia (GetRequest) returns (GetRiderOrderMediaResponse);
-  rpc DeleteRiderOrderMedia (GetRequest) returns (Response);
-
-  rpc SaveRiderOrder (SaveRiderOrderRequest) returns (SaveRiderOrderResponse);
-  rpc GetRiderOrder (GetRequest) returns (GetRiderOrderResponse);
-  rpc DeleteRiderOrder (GetRequest) returns (Response);
-
-  rpc SaveRating (SaveRatingRequest) returns (SaveRatingResponse);
-  rpc GetRating (GetRequest) returns (GetRatingResponse);
-  rpc DeleteRating (GetRequest) returns (Response);
-
-  rpc SaveProductCategory (SaveProductCategoryRequest) returns (SaveProductCategoryResponse);
-  rpc GetProductCategory (GetRequest) returns (GetProductCategoryResponse);
-  rpc DeleteProductCategory (GetRequest) returns (Response);
-
-  rpc SaveProductMedia (SaveProductMediaRequest) returns (SaveProductMediaResponse);
-  rpc GetProductMedia (GetRequest) returns (GetProductMediaResponse);
-  rpc DeleteProductMedia (GetRequest) returns (Response);
-
-  rpc SaveCouponRedemption (SaveCouponRedemptionRequest) returns (SaveCouponRedemptionResponse);
-  rpc GetCouponRedemption (GetRequest) returns (GetCouponRedemptionResponse);
-  rpc DeleteCouponRedemption (GetRequest) returns (Response);
-
-  rpc SaveCouponProduct (SaveCouponProductRequest) returns (SaveCouponProductResponse);
-  rpc GetCouponProduct (GetRequest) returns (GetCouponProductResponse);
-  rpc DeleteCouponProduct (GetRequest) returns (Response);
 
   rpc SaveConfiguration (SaveConfigurationRequest) returns (SaveConfigurationResponse);
   rpc GetConfiguration (GetRequest) returns (GetConfigurationResponse);
