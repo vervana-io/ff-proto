@@ -11,7 +11,11 @@ service UserService {
     rpc GetUser(GetRequest) returns (UserResponse);
     rpc GetUsers(Empty) returns (UserResponse);
     rpc UserOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
-
+    rpc ChangePassword(ChangePasswordRequest) returns (Response);
+    rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
+    rpc AddUpdateBankAccount(AddUpdateBankAccountRequest) returns (Response);
+    rpc GetBankAccounts(GetRequest) returns (ListResponse);
+    rpc GetBankAccount(GetRequest) returns (Response);
     //Customers
     rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (UserResponse);
 
@@ -68,6 +72,26 @@ message VerifyUserRequest {
     string token = 3;
 }
 
+message UpdateSettingsRequest {
+    string user_id = 1;
+    map<string, string> settings = 2;
+}
+message ChangePasswordRequest {
+    string user_id = 1;
+    string old_password = 2;
+    string new_password = 3;
+    optional string email = 4;
+}
+message AddUpdateBankAccountRequest {
+    string user_id = 1;
+    string account_name = 2;
+    string account_number = 3;
+    string bank_name = 4;
+    string bank_code = 5;
+    bool is_main = 6;
+    optional bool status = 7;
+    optional string id = 8;
+}
 message UserResponse {
     int32 status = 1;
     bool success = 2;
@@ -98,6 +122,15 @@ message HealthCheckResponse {
     ServingStatus status = 1;
 }
 //Data
+message BankAccount {
+    string user_id = 1;
+    string account_name = 2;
+    string account_numner = 3;
+    bool is_main = 4;
+    string bank_name = 5;
+    string bank_code = 6;
+    bool status = 7;
+}
 message User {
     string id = 1;
     string username = 2;
@@ -134,6 +167,16 @@ message Response {
     string message = 3;
     map<string,string > data = 4;
     optional string error = 5;
+}
+message ListResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    repeated List data = 5;
+    message List {
+        map<string,string> data = 1;
+    }
 }
 //Requests
 message UserRequest {
@@ -197,6 +240,7 @@ message CreateUpdateSellerRequest {
     optional string state_id = 2;
     optional string city_id = 3;
     optional string lga_id = 4;
+    optional string id = 5;
     // string username = 5; // commented out as in original
     string phone = 6;
     string email = 7;
@@ -270,7 +314,6 @@ enum UserType {
     USER_TYPE_ADMIN = 4;
 }
 message LoginRequest {
-
     string username = 1;
     string password = 2;
     string device_version = 3;
