@@ -4,7 +4,7 @@ package addresses;
 
 service AddressService {
     rpc LocationData(GetLocationRequest) returns (CountryResponse);
-    rpc AddUpdateAddress(AddUpdateAddressRequest) returns (Response);
+    rpc SaveAddress(SaveAddressRequest) returns (Response);
     rpc GetAddress(GetRequest) returns (Address);
     rpc DeleteAddress(GetRequest) returns (Response);
     rpc GetUserAddresses(GetRequest) returns (AddressListResponse);
@@ -18,7 +18,7 @@ message GetRequest {
 }
 
 //Address
-message AddUpdateAddressRequest {
+message SaveAddressRequest {
     string user_id = 1;
     string country_id = 2;
     string state_id = 3;

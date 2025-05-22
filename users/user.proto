@@ -9,23 +9,77 @@ service UserService {
     rpc SendTokenVerification(SendTokenRequest) returns (Response);
     rpc Login(LoginRequest) returns (UserResponse);
     rpc GetUser(GetRequest) returns (UserResponse);
-    rpc GetUsers(Empty) returns (UserResponse);
+    rpc GetUsers(GetRequest) returns (UserResponse);
     rpc UserOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
     rpc ChangePassword(ChangePasswordRequest) returns (Response);
     rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
     rpc AddUpdateBankAccount(AddUpdateBankAccountRequest) returns (Response);
     rpc GetBankAccounts(GetRequest) returns (ListResponse);
     rpc GetBankAccount(GetRequest) returns (Response);
+    rpc ResetPasswordVerification(ResetPasswordRequest) returns (Response);
+    rpc DeleteUser(IdRequest) returns (Response);
+    rpc ApproveUser(IdRequest) returns (Response);
+    rpc RejectUser(IdRequest) returns (Response);
+    rpc ActivateUser(IdRequest) returns (Response);
+    rpc DeactivateUser(IdRequest) returns (Response);
     //Customers
-    rpc CreateUpdateCustomer(CreateUpdateCustomerRequest) returns (UserResponse);
+    rpc SaveCustomer(SaveCustomerRequest) returns (UserResponse);
+
+    //Businesses
+    rpc SaveSeller(SaveSellerRequest) returns (UserResponse);
+
+    //Franchise
+    rpc SaveFranchise(SaveFranchiseRequest) returns (Response);
+    //Personnel
+    rpc SavePersonnel(Empty) returns (Response);
 
     //Riders
-    rpc CreateUpdateRider(CreateUpdateRiderRequest) returns (UserResponse);
-    //Businesses
-    rpc CreateUpdateSeller(CreateUpdateSellerRequest) returns (UserResponse);
+    rpc SaveRider(SaveRiderRequest) returns (UserResponse);
 
+    rpc SaveBusinessCategory(SaveBusinessCategoryReq) returns (Response);
+    rpc GetBusinessCategory(GetRequest) returns (Response);
+    rpc GetBusinessCategories(GetRequest) returns (ListResponse);
+    rpc DeleteBusinessCategory(GetRequest) returns (Response);
+    
 }
 
+message SaveFranchiseRequest {
+    string seller_id = 5;
+    string email = 6;
+    string password = 7;
+    optional string latitude = 8;
+    optional string longitude = 9;
+    optional string formatted_address = 4;
+    string franchise_name = 10;
+    string franchise_phone_number = 11;
+    string opening_hours = 12;
+    string closing_hours = 13;
+    optional string individual_first_name = 17;
+    optional string individual_other_name = 18;
+    optional string individual_last_name = 19;
+    string banner = 20;
+    optional bool seller_allow_withdraw = 22;
+}
+
+message IdRequest {
+    string id = 1;
+    optional string user_id = 2;
+    map<string,string> metadata = 3;
+}
+message GetListRequest {
+    string query = 1;
+    map<string, string > filters = 2;
+    int32 page = 3;
+    int32 size = 4;
+    optional string user_id = 5;
+}
+
+message SaveBusinessCategoryReq {
+    optional string id = 1;
+    string user_id = 2;
+    string name = 3;
+    map<string, string> metadata = 4;
+}
 enum OTPType {
     RESET_PASSWORD = 1;
     CONFIRM_NEW_DEVICE = 2;
@@ -60,6 +114,7 @@ message SendTokenRequest {
     string with = 2; // 'email' or 'phone'
     string user = 3; // email address or phone number
     UserType user_type = 4;
+    OTPType type = 5;
 }
 message VerifyUserRequest {
     string with = 1; // 'email' or 'phone'
@@ -181,7 +236,7 @@ message UserRequest {
     string phone = 4;
 }
 //Customer
-message CreateUpdateCustomerRequest {
+message SaveCustomerRequest {
     optional string id = 1;
     string email = 2;
     string password = 3;
@@ -194,7 +249,7 @@ message CreateUpdateCustomerRequest {
     string referral = 10;
 }
 
-message CreateUpdateRiderRequest {
+message SaveRiderRequest {
     optional string id = 1;
     optional string email = 2;
     string phone = 3;
@@ -230,7 +285,7 @@ message CreateUpdateRiderRequest {
     optional string device_version = 35;
 }
 
-message CreateUpdateSellerRequest {
+message SaveSellerRequest {
     optional string country_id = 1;
     optional string state_id = 2;
     optional string city_id = 3;
@@ -242,7 +297,7 @@ message CreateUpdateSellerRequest {
     string password = 8;
     string latitude = 9;
     string longitude = 10;
-    int32 category_id = 11;
+    string category_id = 11;
     string business_name = 12;
     optional string firstname = 13;
     optional string othername = 14;
