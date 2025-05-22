@@ -13,7 +13,7 @@ service UserService {
     rpc UserOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
     rpc ChangePassword(ChangePasswordRequest) returns (Response);
     rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
-    rpc AddUpdateBankAccount(AddUpdateBankAccountRequest) returns (Response);
+    rpc SaveBankAccount(SaveBankAccountRequest) returns (Response);
     rpc GetBankAccounts(GetRequest) returns (ListResponse);
     rpc GetBankAccount(GetRequest) returns (Response);
     rpc ResetPasswordVerification(ResetPasswordRequest) returns (Response);
@@ -36,10 +36,10 @@ service UserService {
     //Riders
     rpc SaveRider(SaveRiderRequest) returns (UserResponse);
 
-    rpc SaveBusinessCategory(SaveBusinessCategoryReq) returns (Response);
-    rpc GetBusinessCategory(GetRequest) returns (Response);
-    rpc GetBusinessCategories(GetRequest) returns (ListResponse);
-    rpc DeleteBusinessCategory(GetRequest) returns (Response);
+    rpc SaveCategory(SaveCategoryRequest) returns (Response);
+    rpc GetCategory(GetRequest) returns (Response);
+    rpc GetCategories(GetRequest) returns (ListResponse);
+    rpc DeleteCategory(GetRequest) returns (Response);
     
 }
 
@@ -74,7 +74,7 @@ message GetListRequest {
     optional string user_id = 5;
 }
 
-message SaveBusinessCategoryReq {
+message SaveCategoryRequest {
     optional string id = 1;
     string user_id = 2;
     string name = 3;
@@ -132,7 +132,7 @@ message ChangePasswordRequest {
     string new_password = 3;
     optional string email = 4;
 }
-message AddUpdateBankAccountRequest {
+message SaveBankAccountRequest {
     string user_id = 1;
     string account_name = 2;
     string account_number = 3;
