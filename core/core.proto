@@ -347,70 +347,6 @@ message OrderProduct {
   google.protobuf.Timestamp updated_at = 10;
 }
 
-message SaveOrderProductRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string order_id = 2;
-  string product_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  double discount = 6;
-  optional string special_note = 7;
-  int32 status = 8;
-}
-
-message SaveOrderProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProduct order_product = 5;
-}
-
-message GetOrderProductResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProduct order_product = 5;
-}
-
-// Messages for OrderProductAddon entity
-message OrderProductAddon {
-  string id = 1;
-  string order_product_id = 2;
-  string product_addon_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  int32 status = 6;
-  google.protobuf.Timestamp created_at = 7;
-  google.protobuf.Timestamp updated_at = 8;
-}
-
-message SaveOrderProductAddonRequest {
-  optional string id = 1; // Optional ID for update, absent for create
-  string order_product_id = 2;
-  string product_addon_id = 3;
-  int32 quantity = 4;
-  double price = 5;
-  int32 status = 6;
-}
-
-message SaveOrderProductAddonResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProductAddon order_product_addon = 5;
-}
-
-message GetOrderProductAddonResponse {
-  int32 status = 1;
-  string message = 2;
-  optional string error = 3;
-  bool success = 4;
-  OrderProductAddon order_product_addon = 5;
-}
-
 // Messages for Order entity
 message Order {
   string id = 1;
@@ -454,6 +390,10 @@ message SaveOrderRequest {
   optional google.protobuf.Timestamp scheduled_at = 15;
   optional google.protobuf.Timestamp expired_at = 16;
   int32 status = 17;
+  optional string latitude = 18;
+  optional string longitude = 19;
+  optional string formated_address = 20;
+
 }
 
 message SaveOrderResponse {
@@ -977,14 +917,6 @@ service CoreService {
   rpc SaveFoodClass (SaveFoodClassRequest) returns (SaveFoodClassResponse);
   rpc GetFoodClass (GetRequest) returns (GetFoodClassResponse);
   rpc DeleteFoodClass (GetRequest) returns (Response);
-
-  rpc SaveOrderProduct (SaveOrderProductRequest) returns (SaveOrderProductResponse);
-  rpc GetOrderProduct (GetRequest) returns (GetOrderProductResponse);
-  rpc DeleteOrderProduct (GetRequest) returns (Response);
-
-  rpc SaveOrderProductAddon (SaveOrderProductAddonRequest) returns (SaveOrderProductAddonResponse);
-  rpc GetOrderProductAddon (GetRequest) returns (GetOrderProductAddonResponse);
-  rpc DeleteOrderProductAddon (GetRequest) returns (Response);
 
   rpc SaveOrder (SaveOrderRequest) returns (SaveOrderResponse);
   rpc GetOrder (GetRequest) returns (GetOrderResponse);
