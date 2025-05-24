@@ -28,13 +28,11 @@ message SaveAddressRequest {
     string city = 7;
     string state = 8;
     string country = 9;
-    string latitude = 10;
-    string longitude = 11;
+    Location location = 10;
     bool is_primary = 12;
     optional string id = 13;
     optional string customer_id = 14;
     optional string business_id = 15;
-    string address = 16;
 }
 
 //Location Request
@@ -107,7 +105,11 @@ message State {
     string longitude = 6;
     map<string,string> metadata = 7;
 }
-
+message Location {
+    float latitude = 1;
+    float longitude = 2;
+    string formated = 3;
+}
 message Address {
     string id = 1;
     Country country = 2;
@@ -117,8 +119,7 @@ message Address {
     string house_number = 6;
     string street = 7;
     string nearest_bus_top = 8;
-    string latitude = 9;
-    string longitude = 10;
+    Location location = 9;
     string is_primary = 11;
     string status = 12;
     map<string,string> metadata = 21;

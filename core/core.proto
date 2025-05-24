@@ -4,6 +4,7 @@ package core;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
+import "ff-proto/addresses/address.proto";
 
 // Messages for Category entity
 message Category {
@@ -265,10 +266,15 @@ message Order {
   google.protobuf.Timestamp created_at = 20;
   google.protobuf.Timestamp updated_at = 21;
 }
-
+message Location {
+  float latitude = 1;
+  float longitude = 2;
+  string formatted = 3;
+  optional string address_id = 4;
+}
 message SaveOrderRequest {
   optional string id = 1; // Optional ID for update, absent for create
-  string business_id = 2;
+  optional string business_id = 2;
   optional string franchise_id = 3;
   string customer_id = 4;
   optional string rider_id = 5;
@@ -284,6 +290,7 @@ message SaveOrderRequest {
   optional google.protobuf.Timestamp scheduled_at = 15;
   optional google.protobuf.Timestamp expired_at = 16;
   int32 status = 17;
+  Location location = 18;
 }
 
 // Messages for Transaction entity
