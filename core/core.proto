@@ -4,7 +4,7 @@ package core;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
-import "ff-proto/addresses/address.proto";
+import "google/protobuf/any.proto";
 
 // Messages for Category entity
 message Category {
@@ -290,7 +290,15 @@ message SaveOrderRequest {
   optional google.protobuf.Timestamp scheduled_at = 15;
   optional google.protobuf.Timestamp expired_at = 16;
   int32 status = 17;
-  Location location = 18;
+  Location delivery_location = 18;
+  repeated Product products = 19;
+  map<string, string> metadata = 20;
+  message Product {
+    string id = 1;
+    int32 quantity = 2;
+    double amount = 3;
+     repeated string addons = 4;
+  }
 }
 
 // Messages for Transaction entity
@@ -531,6 +539,38 @@ message SaveProductAddon {
     optional string id = 5;
   }
 }
+message Empty {}
+message SellerOrderRequest {
+  string order_id = 1;
+  string seller_id = 2;
+  string type = 3;
+  repeated OrderProductReq order_products = 4;
+  message OrderProductReq {
+    string id =1;
+    repeated string addons = 2;
+  }
+}
+
+message DelayOrderRequest {
+  string id = 1;
+  int64 minutes = 2;
+  string seller_id = 3;
+}
+message CancelOrderRequest {
+  string order_id = 1;
+  string reason = 2;
+  By cancel_by =3;
+
+  enum By {
+    BY_CUSTOMER = 1;
+    BY_SELLER = 2;
+    BY_ADMIN = 3;
+  }
+}
+message IdRequest {
+  string id = 1;
+  optional string user_id = 2;
+}
 service CoreService {
   rpc SaveCategory (SaveCategoryRequest) returns (Response);
   rpc GetCategory (GetRequest) returns (Response);
@@ -555,7 +595,16 @@ service CoreService {
 
   rpc SaveOrder (SaveOrderRequest) returns (Response);
   rpc GetOrder (GetRequest) returns (Response);
-  rpc DeleteOrder (GetRequest) returns (Response);
+  rpc SellerVerifyOrder(SellerOrderRequest) returns (Response);
+  rpc CustomerVerifyOrder(IdRequest) returns (Response);
+  rpc ApproveOrder(SellerOrderRequest) returns (Response);
+  rpc OrderReady(SellerOrderRequest) returns (Response);
+  rpc DelayOrder(DelayOrderRequest) returns (Response);
+  rpc CancelOrder(CancelOrderRequest) returns (Response);
+  rpc OrderNotifyRiders(SellerOrderRequest) returns (Response);
+  rpc OrderDelivered(IdRequest) returns (Response);
+  rpc CalculateDeliveryFee(IdRequest) returns (Response);
+  rpc DeleteOrder (IdRequest) returns (Response);
 
   rpc SaveTransaction (SaveTransactionRequest) returns (Response);
   rpc GetTransaction (GetRequest) returns (Response);
