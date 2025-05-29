@@ -550,7 +550,17 @@ message SellerOrderRequest {
     repeated string addons = 2;
   }
 }
-
+message RiderOrderRequest {
+  string order_id = 1;
+  string request_id = 2;
+  string rider_id = 3;
+  repeated string media = 4;
+  optional Place place = 5;
+  enum Place {
+    PLACE_SELLER = 1;
+    PLACE_CUSTOMER = 2;
+  }
+}
 message DelayOrderRequest {
   string id = 1;
   int64 minutes = 2;
@@ -597,6 +607,10 @@ service CoreService {
   rpc GetOrder (GetRequest) returns (Response);
   rpc SellerVerifyOrder(SellerOrderRequest) returns (Response);
   rpc CustomerVerifyOrder(IdRequest) returns (Response);
+  rpc RiderAcceptOrder(RiderOrderRequest) returns (Response);
+  rpc RiderRejectOrder(RiderOrderRequest) returns (Response);
+  rpc RiderArrive(RiderOrderRequest) returns (Response);
+  rpc RiderPickup(RiderOrderRequest) returns (Response);
   rpc ApproveOrder(SellerOrderRequest) returns (Response);
   rpc OrderReady(SellerOrderRequest) returns (Response);
   rpc DelayOrder(DelayOrderRequest) returns (Response);

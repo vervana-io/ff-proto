@@ -8,10 +8,22 @@ service AddressService {
     rpc GetAddress(GetRequest) returns (Address);
     rpc DeleteAddress(GetRequest) returns (Response);
     rpc GetUserAddresses(GetRequest) returns (AddressListResponse);
+    rpc GetUserByLocationPoint(GetByLocationRequest) returns (AddressListResponse);
 }
-
+enum UserType {
+    USER_TYPE_CUSTOMER = 1;
+    USER_TYPE_RIDER = 2;
+    USER_TYPE_VENDOR = 3;
+    USER_TYPE_ADMIN = 4;
+    USER_TYPE_PERSONNEL = 5;
+    USER_TYPE_FRANCHISE = 6;
+}
 message Empty {}
-
+message GetByLocationRequest {
+    Location location = 1;
+    int64 distance = 2;
+    UserType type = 3;
+}
 message GetRequest {
     optional string id = 1;
     optional string user_id = 2;
@@ -122,6 +134,7 @@ message Address {
     Location location = 9;
     string is_primary = 11;
     string status = 12;
+    string user_id = 13;
     map<string,string> metadata = 21;
 
 }
