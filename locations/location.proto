@@ -2,16 +2,16 @@ syntax = "proto3";
 package locations;
 
 service LocationService{
-    rpc UpdateRiderLocation(UpdateRiderLocation) returns (Response);
-    rpc GetAvailableRiders(GetAvailableRiders) returns (Response);
+    rpc UpdateRiderLocation(UpdateRiderLocationRequest) returns (Response);
+    rpc GetAvailableRiders(GetAvailableRidersRequest) returns (Response);
 }
 
-message UpdateRiderLocation {
+message UpdateRiderLocationRequest {
     string rider_id = 1;
     float lat = 2;
     float long = 3;
 }
-message GetAvailableRiders {
+message GetAvailableRidersRequest {
     float lat = 1;
     float long = 2;
     repeated string excludes = 3;
