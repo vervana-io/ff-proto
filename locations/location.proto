@@ -1,0 +1,24 @@
+syntax = "proto3";
+package locations;
+
+service LocationService{
+    rpc UpdateRiderLocation(UpdateRiderLocation) returns (Response);
+    rpc GetAvailableRiders(GetAvailableRiders) returns (Response);
+}
+
+message UpdateRiderLocation {
+    string rider_id = 1;
+    float lat = 2;
+    float long = 3;
+}
+message GetAvailableRiders {
+    float lat = 1;
+    float long = 2;
+    repeated string excludes = 3;
+}
+message Response {
+    int64 status = 1;
+    string message = 2;
+    optional string error = 3;
+    map<string, string> data = 4;
+}
