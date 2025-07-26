@@ -557,6 +557,7 @@ message RiderOrderRequest {
   repeated string media = 4;
   optional Place place = 5;
   enum Place {
+    PLACE_UNSPECIFIED = 0;
     PLACE_SELLER = 1;
     PLACE_CUSTOMER = 2;
   }
@@ -572,6 +573,7 @@ message CancelOrderRequest {
   By cancel_by =3;
 
   enum By {
+    BY_UNSPECIFIED = 0;
     BY_CUSTOMER = 1;
     BY_SELLER = 2;
     BY_ADMIN = 3;
