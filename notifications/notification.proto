@@ -1,0 +1,32 @@
+syntax = "proto3";
+package notifications;
+
+service NotificationService {
+    rpc Health(Empty) returns (Response);
+    rpc SendMessage(SendMessageRequest) returns (Response);
+}
+
+message Empty {
+
+}
+
+enum NotificationType {
+    NOTIFICATION_TYPE_UNSPECIFIED = 0;
+    NOTIFICATION_TYPE_SMS = 1;
+    NOTIFICATION_TYPE_EMAIL = 2;
+    NOTIFICATION_TYPE_PUSH = 3;
+    NOTIFICATION_TYPE_SOCKET = 4;
+}
+message Response {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    map<string,string > data = 4;
+    optional string error = 5;
+}
+
+message SendMessageRequest {
+    NotificationType type = 1;
+    string to = 2;
+    map<string, string> data = 3;
+}
