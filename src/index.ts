@@ -1,12 +1,8 @@
-import {resolve} from "app-root-path";
+import * as path from 'path';
 
-
-
-export const proto = (name: string) => {
-  const path = resolve(`/proto/${name}/${name}.proto`)
-  return path;
+export const proto = (name: string): string => {
+  // Use __dirname to get the directory of the current file
+  // Then navigate to the proto folder relative to this package
+  const protoPath = path.resolve(__dirname, '..', 'proto', name, `${name}.proto`);
+  return protoPath;
 }
-
-
-
-console.log(proto("users"))
