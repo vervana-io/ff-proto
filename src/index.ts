@@ -6,3 +6,7 @@ export const proto = (name: string): string => {
   const protoPath = path.resolve(__dirname, '..', 'proto', name);
   return protoPath;
 }
+
+export * as healthcheck from './healthcheck/healthcheck';
+export * as notifications from './notifications/notification';
+export * as users from './users/user';
