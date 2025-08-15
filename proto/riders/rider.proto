@@ -1,0 +1,65 @@
+syntax = "proto3";
+package riders;
+import "users/user.proto";
+import "common/common.proto";
+import "healthcheck/healthcheck.proto";
+service RiderService {
+    rpc HealthCheck(grpc.health.v1.HealthCheckRequest) returns (grpc.health.v1.HealthCheckResponse);
+    rpc CreateRider(SaveRiderRequest) returns (common.Response);
+    rpc Login(users.LoginRequest) returns (common.Response);
+    rpc CheckRiderExists(users.CheckUserRequest) returns (common.Response);
+    rpc VerifyRider(users.VerifyRequest) returns (common.Response);
+    rpc SendTokenVerification(users.SendTokenRequest) returns (common.Response);
+    rpc GetRider(common.GetRequest) returns (common.Response);
+    rpc GetRiders(common.GetRequest) returns (common.Response);
+    rpc GetRiderAddress(common.GetRequest) returns (common.Response);
+    //rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
+    rpc ChangePassword(users.ChangePasswordRequest) returns (common.Response);
+    rpc ResetPasswordVerification(users.ResetPasswordRequest) returns (common.Response);
+    rpc Delete(users.IdRequest) returns (common.Response);
+    rpc Approve(users.IdRequest) returns (common.Response);
+    rpc Reject(users.IdRequest) returns (common.Response);
+    rpc Activate(users.IdRequest) returns (common.Response);
+    rpc Deactivate(users.IdRequest) returns (common.Response);
+    rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
+
+    rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    rpc GetBankAccount(common.GetRequest) returns (common.Response);
+}
+//
+
+message SaveRiderRequest {
+    optional string id = 1;
+    optional string email = 2;
+    string phone = 3;
+    string password = 6;
+    string first_name = 7;
+    string last_name = 8;
+    users.Address address = 9;
+    int32 contract_type = 11;
+    repeated int32 shift_data = 12;
+    optional string next_of_kin = 13;
+    optional string next_of_kin_phone_number = 14;
+    bytes drivers_license = 15;
+    optional string drivers_license_base64 = 16;
+    optional int32 vehicle_type = 17;
+    optional string vehicle_brand = 18;
+    optional string vehicle_plate_number = 19;
+    bytes vehicle_picture = 20;
+    optional string vehicle_picture_base64 = 21;
+    optional string first_guarantor_name = 22;
+    optional string first_guarantor_phone_number = 23;
+    optional string second_guarantor_name = 24;
+    optional string second_guarantor_phone_number = 25;
+    optional string previous_place_of_work = 26;
+    optional string previous_place_of_work_duration = 27;
+    optional string bank_name = 28;
+    optional string bank_code = 29;
+    optional string account_number = 30;
+    optional string account_name = 31;
+    bytes selfie = 32;
+    optional string selfie_base64 = 33;
+    optional string device_token = 34;
+    optional string device_version = 35;
+}

@@ -1,0 +1,98 @@
+syntax = "proto3";
+package vendors;
+import "users/user.proto";
+import "common/common.proto";
+import "healthcheck/healthcheck.proto";
+service VendorService {
+    rpc HealthCheck(grpc.health.v1.HealthCheckRequest) returns (grpc.health.v1.HealthCheckResponse);
+    rpc CreateVendor(SaveVendorRequest) returns (common.Response);
+    rpc Login(users.LoginRequest) returns (common.Response);
+    rpc CheckVendorExists(users.CheckUserRequest) returns (common.Response);
+    rpc VerifyVendor(users.VerifyRequest) returns (common.Response);
+    rpc SendTokenVerification(users.SendTokenRequest) returns (common.Response);
+    rpc GetVendor(common.GetRequest) returns (common.Response);
+    rpc GetVendors(common.GetRequest) returns (common.Response);
+    rpc GetVendorAddress(common.GetRequest) returns (common.Response);
+    //rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
+    rpc ChangePassword(users.ChangePasswordRequest) returns (common.Response);
+    rpc ResetPasswordVerification(users.ResetPasswordRequest) returns (common.Response);
+    rpc Delete(users.IdRequest) returns (common.Response);
+    rpc Approve(users.IdRequest) returns (common.Response);
+    rpc Reject(users.IdRequest) returns (common.Response);
+    rpc Activate(users.IdRequest) returns (common.Response);
+    rpc Deactivate(users.IdRequest) returns (common.Response);
+    rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
+
+    rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    rpc GetBankAccount(common.GetRequest) returns (common.Response);
+
+    rpc SaveFranchise(SaveFranchiseRequest) returns (common.Response);
+    //Personnel
+    rpc SavePersonnel(common.Empty) returns (common.Response);
+}
+//
+
+message SaveVendorRequest {
+    optional string country_id = 1;
+    optional string state_id = 2;
+    optional string city_id = 3;
+    optional string lga_id = 4;
+    optional string id = 5;
+    // string username = 5; // commented out as in original
+    string phone = 6;
+    string email = 7;
+    string password = 8;
+    users.Address address = 9;
+    string category_id = 11;
+    string business_name = 12;
+    optional string firstname = 13;
+    optional string othername = 14;
+    optional string lastname = 15;
+    optional string individual_full_name = 16;
+    string individual_address = 17;
+    bytes individual_selfie = 18;
+    string individual_selfie_base64 = 19;
+    bytes individual_identity_card = 20;
+    string individual_identity_card_base64 = 21;
+    string business_phone_number = 22;
+    optional string business_email = 23;
+    string license_number = 24;
+    string opening_hours = 25;
+    string closing_hours = 26;
+    string business_street = 27;
+    string business_house_number = 28;
+    string business_nearest_bus_stop = 29;
+    bytes business_logo = 30;
+    string business_logo_base64 = 31;
+    bytes business_thumbnail = 32;
+    string business_thumbnail_base64 = 33;
+    bytes business_certificate = 34;
+    string business_certificate_base64 = 35;
+    bytes business_memorandum = 36;
+    string business_memorandum_base64 = 37;
+    bytes business_utility_bill = 38;
+    string business_utility_bill_base64 = 39;
+    bytes business_building = 40;
+    string business_building_base64 = 41;
+    string device_token = 42;
+    string device_version = 43;
+}
+
+message SaveFranchiseRequest {
+    string seller_id = 5;
+    string email = 6;
+    string password = 7;
+    optional string latitude = 8;
+    optional string longitude = 9;
+    optional string formatted_address = 4;
+    string franchise_name = 10;
+    string franchise_phone_number = 11;
+    string opening_hours = 12;
+    string closing_hours = 13;
+    optional string individual_first_name = 17;
+    optional string individual_other_name = 18;
+    optional string individual_last_name = 19;
+    string banner = 20;
+    optional bool seller_allow_withdraw = 22;
+}

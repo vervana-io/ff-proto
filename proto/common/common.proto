@@ -1,0 +1,26 @@
+syntax = "proto3";
+package common;
+//
+message Empty {}
+message GetRequest {
+    string id = 1;
+}
+// Response
+
+message Response {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    map<string,string > data = 4;
+    optional string error = 5;
+}
+message ListResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    repeated List data = 5;
+    message List {
+        map<string,string> data = 1;
+    }
+}

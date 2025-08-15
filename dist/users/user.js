@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.USER_SERVICE_NAME = exports.USERS_PACKAGE_NAME = exports.HealthCheckResponse_ServingStatus = exports.UserType = exports.OTPType = exports.protobufPackage = void 0;
+exports.USER_SERVICE_NAME = exports.USERS_PACKAGE_NAME = exports.UserType = exports.OTPType = exports.protobufPackage = void 0;
 exports.UserServiceControllerMethods = UserServiceControllerMethods;
 const microservices_1 = require("@nestjs/microservices");
 exports.protobufPackage = "users";
@@ -24,14 +24,6 @@ var UserType;
     UserType[UserType["USER_TYPE_ADMIN"] = 4] = "USER_TYPE_ADMIN";
     UserType[UserType["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(UserType || (exports.UserType = UserType = {}));
-var HealthCheckResponse_ServingStatus;
-(function (HealthCheckResponse_ServingStatus) {
-    HealthCheckResponse_ServingStatus[HealthCheckResponse_ServingStatus["UNKNOWN"] = 0] = "UNKNOWN";
-    HealthCheckResponse_ServingStatus[HealthCheckResponse_ServingStatus["SERVING"] = 1] = "SERVING";
-    HealthCheckResponse_ServingStatus[HealthCheckResponse_ServingStatus["NOT_SERVING"] = 2] = "NOT_SERVING";
-    HealthCheckResponse_ServingStatus[HealthCheckResponse_ServingStatus["SERVICE_UNKNOWN"] = 3] = "SERVICE_UNKNOWN";
-    HealthCheckResponse_ServingStatus[HealthCheckResponse_ServingStatus["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
-})(HealthCheckResponse_ServingStatus || (exports.HealthCheckResponse_ServingStatus = HealthCheckResponse_ServingStatus = {}));
 exports.USERS_PACKAGE_NAME = "users";
 function UserServiceControllerMethods() {
     return function (constructor) {
@@ -57,10 +49,6 @@ function UserServiceControllerMethods() {
             "activateUser",
             "deactivateUser",
             "saveCustomer",
-            "saveSeller",
-            "saveFranchise",
-            "savePersonnel",
-            "saveRider",
             "saveCategory",
             "getCategory",
             "getCategories",
