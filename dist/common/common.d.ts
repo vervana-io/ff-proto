@@ -1,0 +1,36 @@
+export declare const protobufPackage = "common";
+export interface Empty {
+}
+export interface GetRequest {
+    id: string;
+}
+export interface Response {
+    status: number;
+    success: boolean;
+    message: string;
+    data: {
+        [key: string]: string;
+    };
+    error?: string | undefined;
+}
+export interface Response_DataEntry {
+    key: string;
+    value: string;
+}
+export interface ListResponse {
+    status: number;
+    success: boolean;
+    message: string;
+    error?: string | undefined;
+    data: ListResponse_List[];
+}
+export interface ListResponse_List {
+    data: {
+        [key: string]: string;
+    };
+}
+export interface ListResponse_List_DataEntry {
+    key: string;
+    value: string;
+}
+export declare const COMMON_PACKAGE_NAME = "common";

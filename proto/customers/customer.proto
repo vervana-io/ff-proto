@@ -1,0 +1,99 @@
+syntax = "proto3";
+package customers;
+import "users/user.proto";
+import "common/common.proto";
+import "healthcheck/healthcheck.proto";
+service CustomerService {
+    rpc HealthCheck(grpc.health.v1.HealthCheckRequest) returns (grpc.health.v1.HealthCheckResponse);
+    rpc CreateCustomer(SaveCustomerRequest) returns (common.Response);
+    rpc Login(users.LoginRequest) returns (CustomerResponse);
+    rpc CheckCustomerExists(CheckCustomerRequest) returns (common.Response);
+    rpc VerifyCustomer(users.VerifyRequest) returns (common.Response);
+    rpc SendTokenVerification(SendTokenRequest) returns (common.Response);
+    rpc GetCustomer(common.GetRequest) returns (CustomerResponse);
+    rpc GetCustomers(common.GetRequest) returns (CustomerResponse);
+    rpc CustomerOAuthProvider(CustomerOAuthProviderRequest) returns (CustomerResponse);
+    rpc GetCustomerAddress(common.GetRequest) returns (CustomerResponse);
+    //rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
+    rpc ChangePassword(users.ChangePasswordRequest) returns (common.Response);
+    rpc ResetPasswordVerification(users.ResetPasswordRequest) returns (common.Response);
+    rpc Delete(users.IdRequest) returns (common.Response);
+    rpc Approve(users.IdRequest) returns (common.Response);
+    rpc Reject(users.IdRequest) returns (common.Response);
+    rpc Activate(users.IdRequest) returns (common.Response);
+    rpc Deactivate(users.IdRequest) returns (common.Response);
+    rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
+
+    rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    rpc GetBankAccount(common.GetRequest) returns (common.Response);
+
+}
+//
+
+//Requests
+message SaveCustomerRequest {
+    optional string id = 1;
+    string email = 2;
+    string password = 3;
+    string phone = 4;
+    string firstname = 5;
+    string lastname = 6;
+    users.Address address = 7;
+    string deviceToken = 8;
+    string deviceVersion = 9;
+    string referral = 10;
+}
+
+message CheckCustomerRequest {
+    string with = 1; //email, phone
+    string customer = 2;
+}
+message SendTokenRequest {
+    optional string id = 1;
+    string with = 2; // 'email' or 'phone'
+    string customer = 3; // email address or phone number
+    users.OTPType type = 5;
+}
+message VerifyCustomerRequest {
+    string with = 1; // 'email' or 'phone'
+    string customer = 2; // email address or phone number
+    string token = 3;
+}
+
+message CustomerResponse {
+    int32 status = 1;
+    bool success = 2;
+    string message = 3;
+    optional string error = 4;
+    message Data {
+        Customer Customer = 1;
+        //Wallet wallet = 3;
+        map<string, string > settings = 4;
+        users.Address address = 8;
+    }
+    Data data = 5;
+}
+message Customer {
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    map<string, string> phones = 4;
+    string referral_code = 5;
+    string avatar = 6;
+}
+
+
+
+
+//User Requests
+message CustomerOAuthProviderRequest {
+    string provider = 1;
+    string token = 2;
+    string device_token = 3;
+    string medium = 4;
+    float latitude = 5;
+    float longitude = 6;
+    map<string, string> address = 7;
+}
+

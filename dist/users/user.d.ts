@@ -1,4 +1,6 @@
 import { Observable } from "rxjs";
+import { Empty, ListResponse, Response } from "../common/common";
+import { HealthCheckResponse } from "../healthcheck/healthcheck";
 export declare const protobufPackage = "users";
 export declare enum OTPType {
     OTP_TYPE_UNSPECIFIED = 0,
@@ -18,26 +20,14 @@ export declare enum UserType {
     USER_TYPE_ADMIN = 4,
     UNRECOGNIZED = -1
 }
-export interface SaveFranchiseRequest {
-    sellerId: string;
-    email: string;
-    password: string;
-    latitude?: string | undefined;
-    longitude?: string | undefined;
-    formattedAddress?: string | undefined;
-    franchiseName: string;
-    franchisePhoneNumber: string;
-    openingHours: string;
-    closingHours: string;
-    individualFirstName?: string | undefined;
-    individualOtherName?: string | undefined;
-    individualLastName?: string | undefined;
-    banner: string;
-    sellerAllowWithdraw?: boolean | undefined;
+export interface AddressList {
+    data: Address[];
+    status: number;
+    success: boolean;
+    message: string;
 }
 export interface IdRequest {
     id: string;
-    userId?: string | undefined;
     metadata: {
         [key: string]: string;
     };
@@ -94,7 +84,6 @@ export interface CustomerOAuthProviderRequest_AddressEntry {
 export interface CheckUserRequest {
     with: string;
     user: string;
-    userType: UserType;
 }
 export interface SendTokenRequest {
     id?: string | undefined;
@@ -103,7 +92,7 @@ export interface SendTokenRequest {
     userType: UserType;
     type: OTPType;
 }
-export interface VerifyUserRequest {
+export interface VerifyRequest {
     with: string;
     user: string;
     token: string;
@@ -157,18 +146,6 @@ export interface UserResponse_Data_SettingsEntry {
     key: string;
     value: string;
 }
-export interface Empty {
-}
-export interface HealthCheckResponse {
-    status: HealthCheckResponse_ServingStatus;
-}
-export declare enum HealthCheckResponse_ServingStatus {
-    UNKNOWN = 0,
-    SERVING = 1,
-    NOT_SERVING = 2,
-    SERVICE_UNKNOWN = 3,
-    UNRECOGNIZED = -1
-}
 export interface BankAccount {
     userId: string;
     accountName: string;
@@ -210,35 +187,6 @@ export interface Wallet {
     accountNumber: string;
     balance: number;
 }
-export interface Response {
-    status: number;
-    success: boolean;
-    message: string;
-    data: {
-        [key: string]: string;
-    };
-    error?: string | undefined;
-}
-export interface Response_DataEntry {
-    key: string;
-    value: string;
-}
-export interface ListResponse {
-    status: number;
-    success: boolean;
-    message: string;
-    error?: string | undefined;
-    data: ListResponse_List[];
-}
-export interface ListResponse_List {
-    data: {
-        [key: string]: string;
-    };
-}
-export interface ListResponse_List_DataEntry {
-    key: string;
-    value: string;
-}
 export interface UserRequest {
     name: string;
     email: string;
@@ -263,114 +211,8 @@ export interface SaveCustomerRequest {
     deviceVersion: string;
     referral: string;
 }
-export interface SaveRiderRequest {
-    id?: string | undefined;
-    email?: string | undefined;
-    phone: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    address: Address | undefined;
-    contractType: number;
-    shiftData: number[];
-    nextOfKin?: string | undefined;
-    nextOfKinPhoneNumber?: string | undefined;
-    driversLicense: Uint8Array;
-    driversLicenseBase64?: string | undefined;
-    vehicleType?: number | undefined;
-    vehicleBrand?: string | undefined;
-    vehiclePlateNumber?: string | undefined;
-    vehiclePicture: Uint8Array;
-    vehiclePictureBase64?: string | undefined;
-    firstGuarantorName?: string | undefined;
-    firstGuarantorPhoneNumber?: string | undefined;
-    secondGuarantorName?: string | undefined;
-    secondGuarantorPhoneNumber?: string | undefined;
-    previousPlaceOfWork?: string | undefined;
-    previousPlaceOfWorkDuration?: string | undefined;
-    bankName?: string | undefined;
-    bankCode?: string | undefined;
-    accountNumber?: string | undefined;
-    accountName?: string | undefined;
-    selfie: Uint8Array;
-    selfieBase64?: string | undefined;
-    deviceToken?: string | undefined;
-    deviceVersion?: string | undefined;
-}
-export interface SaveSellerRequest {
-    countryId?: string | undefined;
-    stateId?: string | undefined;
-    cityId?: string | undefined;
-    lgaId?: string | undefined;
-    id?: string | undefined;
-    phone: string;
-    email: string;
-    password: string;
-    address: Address | undefined;
-    categoryId: string;
-    businessName: string;
-    firstname?: string | undefined;
-    othername?: string | undefined;
-    lastname?: string | undefined;
-    individualFullName?: string | undefined;
-    individualAddress: string;
-    individualSelfie: Uint8Array;
-    individualSelfieBase64: string;
-    individualIdentityCard: Uint8Array;
-    individualIdentityCardBase64: string;
-    businessPhoneNumber: string;
-    businessEmail?: string | undefined;
-    licenseNumber: string;
-    openingHours: string;
-    closingHours: string;
-    businessStreet: string;
-    businessHouseNumber: string;
-    businessNearestBusStop: string;
-    businessLogo: Uint8Array;
-    businessLogoBase64: string;
-    businessThumbnail: Uint8Array;
-    businessThumbnailBase64: string;
-    businessCertificate: Uint8Array;
-    businessCertificateBase64: string;
-    businessMemorandum: Uint8Array;
-    businessMemorandumBase64: string;
-    businessUtilityBill: Uint8Array;
-    businessUtilityBillBase64: string;
-    businessBuilding: Uint8Array;
-    businessBuildingBase64: string;
-    deviceToken: string;
-    deviceVersion: string;
-}
 export interface GetRequest {
     id: string;
-}
-export interface CreateCustomer {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    latitude: string;
-    longitude: string;
-    houseNumber: string;
-    street: string;
-    nearestBusStop: string;
-    city: string;
-    state: string;
-    country: string;
-    deviceToken: string;
-    deviceVersion: string;
-    referralCode: string;
-    password: string;
-    stateId?: string | undefined;
-    cityId?: string | undefined;
-    lgaId?: string | undefined;
-    metadata: {
-        [key: string]: string;
-    };
-}
-export interface CreateCustomer_MetadataEntry {
-    key: string;
-    value: string;
 }
 export interface LoginRequest {
     username: string;
@@ -455,7 +297,7 @@ export interface UserServiceClient {
     healthCheck(request: Empty): Observable<HealthCheckResponse>;
     createUser(request: UserRequest): Observable<Response>;
     checkUserExists(request: CheckUserRequest): Observable<Response>;
-    verifyUser(request: VerifyUserRequest): Observable<Response>;
+    verifyUser(request: VerifyRequest): Observable<Response>;
     sendTokenVerification(request: SendTokenRequest): Observable<Response>;
     login(request: LoginRequest): Observable<UserResponse>;
     getUser(request: GetRequest): Observable<UserResponse>;
@@ -473,10 +315,6 @@ export interface UserServiceClient {
     activateUser(request: IdRequest): Observable<Response>;
     deactivateUser(request: IdRequest): Observable<Response>;
     saveCustomer(request: SaveCustomerRequest): Observable<UserResponse>;
-    saveSeller(request: SaveSellerRequest): Observable<UserResponse>;
-    saveFranchise(request: SaveFranchiseRequest): Observable<Response>;
-    savePersonnel(request: Empty): Observable<Response>;
-    saveRider(request: SaveRiderRequest): Observable<UserResponse>;
     saveCategory(request: SaveCategoryRequest): Observable<Response>;
     getCategory(request: GetRequest): Observable<Response>;
     getCategories(request: GetRequest): Observable<ListResponse>;
@@ -486,7 +324,7 @@ export interface UserServiceController {
     healthCheck(request: Empty): Promise<HealthCheckResponse> | Observable<HealthCheckResponse> | HealthCheckResponse;
     createUser(request: UserRequest): Promise<Response> | Observable<Response> | Response;
     checkUserExists(request: CheckUserRequest): Promise<Response> | Observable<Response> | Response;
-    verifyUser(request: VerifyUserRequest): Promise<Response> | Observable<Response> | Response;
+    verifyUser(request: VerifyRequest): Promise<Response> | Observable<Response> | Response;
     sendTokenVerification(request: SendTokenRequest): Promise<Response> | Observable<Response> | Response;
     login(request: LoginRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
     getUser(request: GetRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
@@ -504,10 +342,6 @@ export interface UserServiceController {
     activateUser(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     deactivateUser(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     saveCustomer(request: SaveCustomerRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
-    saveSeller(request: SaveSellerRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
-    saveFranchise(request: SaveFranchiseRequest): Promise<Response> | Observable<Response> | Response;
-    savePersonnel(request: Empty): Promise<Response> | Observable<Response> | Response;
-    saveRider(request: SaveRiderRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
     saveCategory(request: SaveCategoryRequest): Promise<Response> | Observable<Response> | Response;
     getCategory(request: GetRequest): Promise<Response> | Observable<Response> | Response;
     getCategories(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
