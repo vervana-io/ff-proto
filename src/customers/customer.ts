@@ -7,16 +7,15 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { GetRequest, ListResponse, Response } from "../common/common";
+import { GetRequest, IdRequest, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
 import {
   Address,
   ChangePasswordRequest,
-  IdRequest,
+  Device,
   LoginRequest,
   OTPType,
   ResetPasswordRequest,
-  SaveBankAccountRequest,
   UpdateSettingsRequest,
   VerifyRequest,
 } from "../users/user";
@@ -91,6 +90,7 @@ export interface Customer {
   phones: { [key: string]: string };
   referralCode: string;
   avatar: string;
+  devices: Device[];
 }
 
 export interface Customer_PhonesEntry {
@@ -154,12 +154,6 @@ export interface CustomerServiceClient {
   deactivate(request: IdRequest): Observable<Response>;
 
   updateSettings(request: UpdateSettingsRequest): Observable<Response>;
-
-  saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-
-  getBankAccounts(request: GetRequest): Observable<ListResponse>;
-
-  getBankAccount(request: GetRequest): Observable<Response>;
 }
 
 export interface CustomerServiceController {
@@ -204,12 +198,6 @@ export interface CustomerServiceController {
   deactivate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
 
   updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
-
-  saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-
-  getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-
-  getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
 }
 
 export function CustomerServiceControllerMethods() {
@@ -233,9 +221,6 @@ export function CustomerServiceControllerMethods() {
       "activate",
       "deactivate",
       "updateSettings",
-      "saveBankAccount",
-      "getBankAccounts",
-      "getBankAccount",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

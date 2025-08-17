@@ -7,13 +7,12 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { GetRequest, ListResponse, Response } from "../common/common";
+import { GetRequest, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
 import {
   Address,
   ChangePasswordRequest,
   CheckUserRequest,
-  IdRequest,
   LoginRequest,
   ResetPasswordRequest,
   SaveBankAccountRequest,
@@ -36,13 +35,11 @@ export interface SaveRiderRequest {
   shiftData: number[];
   nextOfKin?: string | undefined;
   nextOfKinPhoneNumber?: string | undefined;
-  driversLicense: Uint8Array;
-  driversLicenseBase64?: string | undefined;
+  driversLicense: string;
   vehicleType?: number | undefined;
   vehicleBrand?: string | undefined;
   vehiclePlateNumber?: string | undefined;
-  vehiclePicture: Uint8Array;
-  vehiclePictureBase64?: string | undefined;
+  vehiclePicture: string;
   firstGuarantorName?: string | undefined;
   firstGuarantorPhoneNumber?: string | undefined;
   secondGuarantorName?: string | undefined;
@@ -53,10 +50,26 @@ export interface SaveRiderRequest {
   bankCode?: string | undefined;
   accountNumber?: string | undefined;
   accountName?: string | undefined;
-  selfie: Uint8Array;
-  selfieBase64?: string | undefined;
+  selfie: string;
+  deviceType?: string | undefined;
   deviceToken?: string | undefined;
   deviceVersion?: string | undefined;
+}
+
+export interface SaveShiftRequest {
+  id?: string | undefined;
+  type: number;
+  day: number;
+}
+
+export interface Shift {
+  id: string;
+  type: number;
+  day: number;
+  riderId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const RIDERS_PACKAGE_NAME = "riders";
@@ -103,6 +116,12 @@ export interface RiderServiceClient {
   getBankAccounts(request: GetRequest): Observable<ListResponse>;
 
   getBankAccount(request: GetRequest): Observable<Response>;
+
+  saveShift(request: SaveShiftRequest): Observable<Response>;
+
+  deleteShift(request: IdRequest): Observable<Response>;
+
+  getShifts(request: IdRequest): Observable<ListResponse>;
 }
 
 export interface RiderServiceController {
@@ -149,6 +168,12 @@ export interface RiderServiceController {
   getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
 
   getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
+
+  saveShift(request: SaveShiftRequest): Promise<Response> | Observable<Response> | Response;
+
+  deleteShift(request: IdRequest): Promise<Response> | Observable<Response> | Response;
+
+  getShifts(request: IdRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
 }
 
 export function RiderServiceControllerMethods() {
@@ -174,6 +199,9 @@ export function RiderServiceControllerMethods() {
       "saveBankAccount",
       "getBankAccounts",
       "getBankAccount",
+      "saveShift",
+      "deleteShift",
+      "getShifts",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

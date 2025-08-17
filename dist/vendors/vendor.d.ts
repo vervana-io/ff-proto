@@ -1,13 +1,9 @@
 import { Observable } from "rxjs";
-import { Empty, GetRequest, ListResponse, Response } from "../common/common";
+import { Empty, GetRequest, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
-import { Address, ChangePasswordRequest, CheckUserRequest, IdRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
+import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
 export declare const protobufPackage = "vendors";
 export interface SaveVendorRequest {
-    countryId?: string | undefined;
-    stateId?: string | undefined;
-    cityId?: string | undefined;
-    lgaId?: string | undefined;
     id?: string | undefined;
     phone: string;
     email: string;
@@ -20,10 +16,8 @@ export interface SaveVendorRequest {
     lastname?: string | undefined;
     individualFullName?: string | undefined;
     individualAddress: string;
-    individualSelfie: Uint8Array;
-    individualSelfieBase64: string;
-    individualIdentityCard: Uint8Array;
-    individualIdentityCardBase64: string;
+    individualSelfie: string;
+    individualIdentityCard: string;
     businessPhoneNumber: string;
     businessEmail?: string | undefined;
     licenseNumber: string;
@@ -32,18 +26,13 @@ export interface SaveVendorRequest {
     businessStreet: string;
     businessHouseNumber: string;
     businessNearestBusStop: string;
-    businessLogo: Uint8Array;
-    businessLogoBase64: string;
-    businessThumbnail: Uint8Array;
-    businessThumbnailBase64: string;
-    businessCertificate: Uint8Array;
-    businessCertificateBase64: string;
-    businessMemorandum: Uint8Array;
-    businessMemorandumBase64: string;
-    businessUtilityBill: Uint8Array;
-    businessUtilityBillBase64: string;
-    businessBuilding: Uint8Array;
-    businessBuildingBase64: string;
+    businessLogo: string;
+    businessThumbnail: string;
+    businessCertificate: string;
+    businessMemorandum: string;
+    businessUtilityBill: string;
+    businessBuilding: string;
+    deviceType: string;
     deviceToken: string;
     deviceVersion: string;
 }

@@ -16,11 +16,11 @@ service VendorService {
     //rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
     rpc ChangePassword(users.ChangePasswordRequest) returns (common.Response);
     rpc ResetPasswordVerification(users.ResetPasswordRequest) returns (common.Response);
-    rpc Delete(users.IdRequest) returns (common.Response);
-    rpc Approve(users.IdRequest) returns (common.Response);
-    rpc Reject(users.IdRequest) returns (common.Response);
-    rpc Activate(users.IdRequest) returns (common.Response);
-    rpc Deactivate(users.IdRequest) returns (common.Response);
+    rpc Delete(common.IdRequest) returns (common.Response);
+    rpc Approve(common.IdRequest) returns (common.Response);
+    rpc Reject(common.IdRequest) returns (common.Response);
+    rpc Activate(common.IdRequest) returns (common.Response);
+    rpc Deactivate(common.IdRequest) returns (common.Response);
     rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
 
     rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
@@ -34,12 +34,7 @@ service VendorService {
 //
 
 message SaveVendorRequest {
-    optional string country_id = 1;
-    optional string state_id = 2;
-    optional string city_id = 3;
-    optional string lga_id = 4;
     optional string id = 5;
-    // string username = 5; // commented out as in original
     string phone = 6;
     string email = 7;
     string password = 8;
@@ -51,10 +46,8 @@ message SaveVendorRequest {
     optional string lastname = 15;
     optional string individual_full_name = 16;
     string individual_address = 17;
-    bytes individual_selfie = 18;
-    string individual_selfie_base64 = 19;
-    bytes individual_identity_card = 20;
-    string individual_identity_card_base64 = 21;
+    string individual_selfie = 18;
+    string individual_identity_card = 20;
     string business_phone_number = 22;
     optional string business_email = 23;
     string license_number = 24;
@@ -63,18 +56,13 @@ message SaveVendorRequest {
     string business_street = 27;
     string business_house_number = 28;
     string business_nearest_bus_stop = 29;
-    bytes business_logo = 30;
-    string business_logo_base64 = 31;
-    bytes business_thumbnail = 32;
-    string business_thumbnail_base64 = 33;
-    bytes business_certificate = 34;
-    string business_certificate_base64 = 35;
-    bytes business_memorandum = 36;
-    string business_memorandum_base64 = 37;
-    bytes business_utility_bill = 38;
-    string business_utility_bill_base64 = 39;
-    bytes business_building = 40;
-    string business_building_base64 = 41;
+    string business_logo = 30;
+    string business_thumbnail = 32;
+    string business_certificate = 34;
+    string business_memorandum = 36;
+    string business_utility_bill = 38;
+    string business_building = 40;
+    string device_type = 41;
     string device_token = 42;
     string device_version = 43;
 }

@@ -15,7 +15,7 @@
     "url": "https://github.com/vervana-io/ff-proto.git"
   },
   "scripts": {
-    "build": "tsc && make proto-gen",
+    "build": "make proto-gen && tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

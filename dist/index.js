@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.riders = exports.vendors = exports.customers = exports.notifications = exports.healthcheck = exports.protoRoot = exports.proto = void 0;
+exports.common = exports.users = exports.riders = exports.vendors = exports.customers = exports.notifications = exports.healthcheck = exports.protoRoot = exports.proto = void 0;
 const path = require("path");
 const proto = (name) => {
     const protoPath = path.resolve(__dirname, '..', 'proto', name);
@@ -16,4 +16,6 @@ exports.notifications = require("./notifications/notification");
 exports.customers = require("./customers/customer");
 exports.vendors = require("./vendors/vendor");
 exports.riders = require("./riders/rider");
+exports.users = require("./users/user");
+exports.common = require("./common/common");
 //# sourceMappingURL=index.js.map

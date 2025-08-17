@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
-import { GetRequest, ListResponse, Response } from "../common/common";
+import { GetRequest, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
-import { Address, ChangePasswordRequest, CheckUserRequest, IdRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
+import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
 export declare const protobufPackage = "riders";
 export interface SaveRiderRequest {
     id?: string | undefined;
@@ -15,13 +15,11 @@ export interface SaveRiderRequest {
     shiftData: number[];
     nextOfKin?: string | undefined;
     nextOfKinPhoneNumber?: string | undefined;
-    driversLicense: Uint8Array;
-    driversLicenseBase64?: string | undefined;
+    driversLicense: string;
     vehicleType?: number | undefined;
     vehicleBrand?: string | undefined;
     vehiclePlateNumber?: string | undefined;
-    vehiclePicture: Uint8Array;
-    vehiclePictureBase64?: string | undefined;
+    vehiclePicture: string;
     firstGuarantorName?: string | undefined;
     firstGuarantorPhoneNumber?: string | undefined;
     secondGuarantorName?: string | undefined;
@@ -32,10 +30,24 @@ export interface SaveRiderRequest {
     bankCode?: string | undefined;
     accountNumber?: string | undefined;
     accountName?: string | undefined;
-    selfie: Uint8Array;
-    selfieBase64?: string | undefined;
+    selfie: string;
+    deviceType?: string | undefined;
     deviceToken?: string | undefined;
     deviceVersion?: string | undefined;
+}
+export interface SaveShiftRequest {
+    id?: string | undefined;
+    type: number;
+    day: number;
+}
+export interface Shift {
+    id: string;
+    type: number;
+    day: number;
+    riderId: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
 }
 export declare const RIDERS_PACKAGE_NAME = "riders";
 export interface RiderServiceClient {
@@ -59,6 +71,9 @@ export interface RiderServiceClient {
     saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
     getBankAccounts(request: GetRequest): Observable<ListResponse>;
     getBankAccount(request: GetRequest): Observable<Response>;
+    saveShift(request: SaveShiftRequest): Observable<Response>;
+    deleteShift(request: IdRequest): Observable<Response>;
+    getShifts(request: IdRequest): Observable<ListResponse>;
 }
 export interface RiderServiceController {
     healthCheck(request: HealthCheckRequest): Promise<HealthCheckResponse> | Observable<HealthCheckResponse> | HealthCheckResponse;
@@ -81,6 +96,9 @@ export interface RiderServiceController {
     saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
     getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
     getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
+    saveShift(request: SaveShiftRequest): Promise<Response> | Observable<Response> | Response;
+    deleteShift(request: IdRequest): Promise<Response> | Observable<Response> | Response;
+    getShifts(request: IdRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
 }
 export declare function RiderServiceControllerMethods(): (constructor: Function) => void;
 export declare const RIDER_SERVICE_NAME = "RiderService";

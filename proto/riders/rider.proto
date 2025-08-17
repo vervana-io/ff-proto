@@ -16,16 +16,19 @@ service RiderService {
     //rpc UpdateSettings(UpdateSettingsRequest) returns (Response);
     rpc ChangePassword(users.ChangePasswordRequest) returns (common.Response);
     rpc ResetPasswordVerification(users.ResetPasswordRequest) returns (common.Response);
-    rpc Delete(users.IdRequest) returns (common.Response);
-    rpc Approve(users.IdRequest) returns (common.Response);
-    rpc Reject(users.IdRequest) returns (common.Response);
-    rpc Activate(users.IdRequest) returns (common.Response);
-    rpc Deactivate(users.IdRequest) returns (common.Response);
+    rpc Delete(common.IdRequest) returns (common.Response);
+    rpc Approve(common.IdRequest) returns (common.Response);
+    rpc Reject(common.IdRequest) returns (common.Response);
+    rpc Activate(common.IdRequest) returns (common.Response);
+    rpc Deactivate(common.IdRequest) returns (common.Response);
     rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
-
     rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
     rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
     rpc GetBankAccount(common.GetRequest) returns (common.Response);
+
+    rpc SaveShift(SaveShiftRequest) returns (common.Response);
+    rpc DeleteShift(common.IdRequest) returns (common.Response);
+    rpc GetShifts(common.IdRequest) returns (common.ListResponse);
 }
 //
 
@@ -41,13 +44,11 @@ message SaveRiderRequest {
     repeated int32 shift_data = 12;
     optional string next_of_kin = 13;
     optional string next_of_kin_phone_number = 14;
-    bytes drivers_license = 15;
-    optional string drivers_license_base64 = 16;
+    string drivers_license = 15;
     optional int32 vehicle_type = 17;
     optional string vehicle_brand = 18;
     optional string vehicle_plate_number = 19;
-    bytes vehicle_picture = 20;
-    optional string vehicle_picture_base64 = 21;
+    string vehicle_picture = 20;
     optional string first_guarantor_name = 22;
     optional string first_guarantor_phone_number = 23;
     optional string second_guarantor_name = 24;
@@ -58,8 +59,24 @@ message SaveRiderRequest {
     optional string bank_code = 29;
     optional string account_number = 30;
     optional string account_name = 31;
-    bytes selfie = 32;
-    optional string selfie_base64 = 33;
+    string selfie = 32;
+    optional string device_type = 33;
     optional string device_token = 34;
     optional string device_version = 35;
+}
+
+message SaveShiftRequest {
+    optional string id = 1;
+    int32 type = 2;
+    int32 day = 3;
+}
+
+message Shift {
+    string id = 1;
+    int32 type = 2;
+    int32 day = 3;
+    string rider_id = 4;
+    string status = 5;
+    string created_at = 6;
+    string updated_at = 7;
 }

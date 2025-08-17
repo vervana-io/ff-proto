@@ -4,6 +4,16 @@ export interface Empty {
 export interface GetRequest {
     id: string;
 }
+export interface IdRequest {
+    id: string;
+    metadata: {
+        [key: string]: string;
+    };
+}
+export interface IdRequest_MetadataEntry {
+    key: string;
+    value: string;
+}
 export interface Response {
     status: number;
     success: boolean;

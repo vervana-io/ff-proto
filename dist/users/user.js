@@ -48,7 +48,6 @@ function UserServiceControllerMethods() {
             "rejectUser",
             "activateUser",
             "deactivateUser",
-            "saveCustomer",
             "saveCategory",
             "getCategory",
             "getCategories",

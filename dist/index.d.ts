@@ -5,3 +5,5 @@ export * as notifications from './notifications/notification';
 export * as customers from './customers/customer';
 export * as vendors from './vendors/vendor';
 export * as riders from './riders/rider';
+export * as users from './users/user';
+export * as common from './common/common';

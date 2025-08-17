@@ -28,6 +28,9 @@ function RiderServiceControllerMethods() {
             "saveBankAccount",
             "getBankAccounts",
             "getBankAccount",
+            "saveShift",
+            "deleteShift",
+            "getShifts",
         ];
         for (const method of grpcMethods) {
             const descriptor = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

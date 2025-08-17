@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
-import { GetRequest, ListResponse, Response } from "../common/common";
+import { GetRequest, IdRequest, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
-import { Address, ChangePasswordRequest, IdRequest, LoginRequest, OTPType, ResetPasswordRequest, SaveBankAccountRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
+import { Address, ChangePasswordRequest, Device, LoginRequest, OTPType, ResetPasswordRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
 export declare const protobufPackage = "customers";
 export interface SaveCustomerRequest {
     id?: string | undefined;
@@ -57,6 +57,7 @@ export interface Customer {
     };
     referralCode: string;
     avatar: string;
+    devices: Device[];
 }
 export interface Customer_PhonesEntry {
     key: string;
@@ -97,9 +98,6 @@ export interface CustomerServiceClient {
     activate(request: IdRequest): Observable<Response>;
     deactivate(request: IdRequest): Observable<Response>;
     updateSettings(request: UpdateSettingsRequest): Observable<Response>;
-    saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-    getBankAccounts(request: GetRequest): Observable<ListResponse>;
-    getBankAccount(request: GetRequest): Observable<Response>;
 }
 export interface CustomerServiceController {
     healthCheck(request: HealthCheckRequest): Promise<HealthCheckResponse> | Observable<HealthCheckResponse> | HealthCheckResponse;
@@ -120,9 +118,6 @@ export interface CustomerServiceController {
     activate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     deactivate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
-    saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-    getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-    getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
 }
 export declare function CustomerServiceControllerMethods(): (constructor: Function) => void;
 export declare const CUSTOMER_SERVICE_NAME = "CustomerService";

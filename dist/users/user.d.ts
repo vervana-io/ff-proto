@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Empty, ListResponse, Response } from "../common/common";
+import { Empty, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckResponse } from "../healthcheck/healthcheck";
 export declare const protobufPackage = "users";
 export declare enum OTPType {
@@ -25,16 +25,6 @@ export interface AddressList {
     status: number;
     success: boolean;
     message: string;
-}
-export interface IdRequest {
-    id: string;
-    metadata: {
-        [key: string]: string;
-    };
-}
-export interface IdRequest_MetadataEntry {
-    key: string;
-    value: string;
 }
 export interface GetListRequest {
     query: string;
@@ -157,29 +147,10 @@ export interface BankAccount {
 }
 export interface User {
     id: string;
-    username: string;
-    email: string;
-    phone: string;
     latitude: string;
     longitude: string;
     deviceVersion: string;
     complianceStatus: string;
-    createdAt: string;
-    updatedAt: string;
-}
-export interface Customer {
-    id: string;
-    firstname: string;
-    lastname: string;
-    phones: {
-        [key: string]: string;
-    };
-    referralCode: string;
-    avatar: string;
-}
-export interface Customer_PhonesEntry {
-    key: string;
-    value: string;
 }
 export interface Wallet {
     id: string;
@@ -219,7 +190,31 @@ export interface LoginRequest {
     password: string;
     deviceVersion: string;
     deviceToken: string;
-    userType: UserType;
+    deviceType: string;
+}
+export interface Device {
+    device: string;
+    type: string;
+}
+export interface Customer {
+    id: string;
+    username: string;
+    email: string;
+    phone: string;
+    firstname: string;
+    lastname: string;
+    phones: {
+        [key: string]: string;
+    };
+    referralCode: string;
+    avatar: string;
+    createdAt: string;
+    updatedAt: string;
+    devices: Device[];
+}
+export interface Customer_PhonesEntry {
+    key: string;
+    value: string;
 }
 export interface Rider {
     id: string;
@@ -228,7 +223,8 @@ export interface Rider {
     };
     firstname: string;
     lastname: string;
-    address: Address | undefined;
+    address?: Address | undefined;
+    devices: Device[];
     contractType: number;
     shiftData: number[];
     nextOfKin?: string | undefined;
@@ -237,7 +233,7 @@ export interface Rider {
     vehicleType?: number | undefined;
     vehicleBrand?: string | undefined;
     vehiclePlateNumber?: string | undefined;
-    vehiclePictureBase64?: string | undefined;
+    vehiclePicture?: string | undefined;
     firstGuarantorName?: string | undefined;
     firstGuarantorPhoneNumber?: string | undefined;
     secondGuarantorName?: string | undefined;
@@ -249,6 +245,8 @@ export interface Rider {
     accountNumber?: string | undefined;
     accountName?: string | undefined;
     selfie?: string | undefined;
+    createdAt: string;
+    updatedAt: string;
 }
 export interface Rider_PhonesEntry {
     key: string;
@@ -279,6 +277,9 @@ export interface Seller {
     businessMemorandum?: string | undefined;
     businessUtilityBill?: string | undefined;
     businessBuilding?: string | undefined;
+    devices: Device[];
+    createdAt: string;
+    updatedAt: string;
 }
 export interface Personnel {
     id: string;
@@ -291,6 +292,7 @@ export interface Personnel {
     compliance: string;
     status: string;
     createdAt: string;
+    devices: Device[];
 }
 export declare const USERS_PACKAGE_NAME = "users";
 export interface UserServiceClient {
@@ -314,7 +316,6 @@ export interface UserServiceClient {
     rejectUser(request: IdRequest): Observable<Response>;
     activateUser(request: IdRequest): Observable<Response>;
     deactivateUser(request: IdRequest): Observable<Response>;
-    saveCustomer(request: SaveCustomerRequest): Observable<UserResponse>;
     saveCategory(request: SaveCategoryRequest): Observable<Response>;
     getCategory(request: GetRequest): Observable<Response>;
     getCategories(request: GetRequest): Observable<ListResponse>;
@@ -341,7 +342,6 @@ export interface UserServiceController {
     rejectUser(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     activateUser(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     deactivateUser(request: IdRequest): Promise<Response> | Observable<Response> | Response;
-    saveCustomer(request: SaveCustomerRequest): Promise<UserResponse> | Observable<UserResponse> | UserResponse;
     saveCategory(request: SaveCategoryRequest): Promise<Response> | Observable<Response> | Response;
     getCategory(request: GetRequest): Promise<Response> | Observable<Response> | Response;
     getCategories(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;

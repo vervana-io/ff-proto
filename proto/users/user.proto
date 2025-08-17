@@ -19,13 +19,12 @@ service UserService {
     rpc GetBankAccounts(GetRequest) returns (common.ListResponse);
     rpc GetBankAccount(GetRequest) returns (common.Response);
     rpc ResetPasswordVerification(ResetPasswordRequest) returns (common.Response);
-    rpc DeleteUser(IdRequest) returns (common.Response);
-    rpc ApproveUser(IdRequest) returns (common.Response);
-    rpc RejectUser(IdRequest) returns (common.Response);
-    rpc ActivateUser(IdRequest) returns (common.Response);
-    rpc DeactivateUser(IdRequest) returns (common.Response);
+    rpc DeleteUser(common.IdRequest) returns (common.Response);
+    rpc ApproveUser(common.IdRequest) returns (common.Response);
+    rpc RejectUser(common.IdRequest) returns (common.Response);
+    rpc ActivateUser(common.IdRequest) returns (common.Response);
+    rpc DeactivateUser(common.IdRequest) returns (common.Response);
     //Customers
-    rpc SaveCustomer(SaveCustomerRequest) returns (UserResponse);
 
     rpc SaveCategory(SaveCategoryRequest) returns (common.Response);
     rpc GetCategory(GetRequest) returns (common.Response);
@@ -41,10 +40,6 @@ message AddressList {
 
 }
 
-message IdRequest {
-    string id = 1;
-    map<string,string> metadata = 3;
-}
 message GetListRequest {
     string query = 1;
     map<string, string > filters = 2;
@@ -151,24 +146,10 @@ message BankAccount {
 }
 message User {
     string id = 1;
-    string username = 2;
-    string email = 3;
-    string phone = 4;
     string latitude = 5;
     string longitude = 6;
     string device_version = 7;
     string compliance_status = 8;
-    string created_at = 9;
-    string updated_at = 10;
-}
-
-message Customer {
-    string id = 1;
-    string firstname = 2;
-    string lastname = 3;
-    map<string, string> phones = 4;
-    string referral_code = 5;
-    string avatar = 6;
 }
 
 message Wallet {
@@ -222,7 +203,26 @@ message LoginRequest {
     string password = 2;
     string device_version = 3;
     string device_token = 4;
-    UserType user_type = 5;
+    string device_type = 6;
+}
+
+message Device {
+    string device = 1;
+    string type = 2;
+}
+message Customer {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string phone = 4;
+    string firstname = 5;
+    string lastname = 6;
+    map<string, string> phones = 7;
+    string referral_code = 8;
+    string avatar = 9;
+    string created_at = 10;
+    string updated_at = 11;
+    repeated Device devices = 12;
 }
 
 message Rider {
@@ -230,7 +230,8 @@ message Rider {
     map<string, string> phones = 2;
     string firstname = 4;
     string lastname = 5;
-    Address address = 6;
+    optional users.Address address = 6;
+    repeated Device devices = 7;
     int32 contract_type = 8;
     repeated int32 shift_data = 9;
     optional string next_of_kin = 10;
@@ -239,7 +240,7 @@ message Rider {
     optional int32 vehicle_type = 13;
     optional string vehicle_brand = 14;
     optional string vehicle_plate_number = 15;
-    optional string vehicle_picture_base64 = 16;
+    optional string vehicle_picture = 16;
     optional string first_guarantor_name = 17;
     optional string first_guarantor_phone_number = 18;
     optional string second_guarantor_name = 19;
@@ -251,6 +252,8 @@ message Rider {
     optional string account_number = 25;
     optional string account_name = 26;
     optional string selfie = 27;
+    string created_at = 28;
+    string updated_at = 29;
 }
 
 message Seller {
@@ -278,6 +281,9 @@ message Seller {
     optional string business_memorandum = 30;
     optional string business_utility_bill = 31;
     optional string business_building = 32;
+    repeated Device devices = 33;
+    string created_at = 34;
+    string updated_at = 35;
 }
 
 message Personnel {
@@ -291,4 +297,5 @@ message Personnel {
     string compliance = 8;
     string status = 9;
     string created_at = 10;
+    repeated Device devices = 33;
 }

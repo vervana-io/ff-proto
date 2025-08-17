@@ -5,6 +5,11 @@ message Empty {}
 message GetRequest {
     string id = 1;
 }
+
+message IdRequest {
+    string id = 1;
+    map<string,string> metadata = 3;
+}
 // Response
 
 message Response {

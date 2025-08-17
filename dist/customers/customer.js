@@ -26,9 +26,6 @@ function CustomerServiceControllerMethods() {
             "activate",
             "deactivate",
             "updateSettings",
-            "saveBankAccount",
-            "getBankAccounts",
-            "getBankAccount",
         ];
         for (const method of grpcMethods) {
             const descriptor = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
