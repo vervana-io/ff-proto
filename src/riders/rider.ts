@@ -60,6 +60,7 @@ export interface SaveShiftRequest {
   id?: string | undefined;
   type: number;
   day: number;
+  riderId: string;
 }
 
 export interface Shift {
