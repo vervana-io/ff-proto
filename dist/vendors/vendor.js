@@ -25,9 +25,6 @@ function VendorServiceControllerMethods() {
             "activate",
             "deactivate",
             "updateSettings",
-            "saveBankAccount",
-            "getBankAccounts",
-            "getBankAccount",
             "saveFranchise",
             "savePersonnel",
         ];

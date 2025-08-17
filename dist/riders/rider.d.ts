@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 import { GetRequest, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
-import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
+import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
 export declare const protobufPackage = "riders";
 export interface SaveRiderRequest {
     id?: string | undefined;
@@ -69,9 +69,6 @@ export interface RiderServiceClient {
     activate(request: IdRequest): Observable<Response>;
     deactivate(request: IdRequest): Observable<Response>;
     updateSettings(request: UpdateSettingsRequest): Observable<Response>;
-    saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-    getBankAccounts(request: GetRequest): Observable<ListResponse>;
-    getBankAccount(request: GetRequest): Observable<Response>;
     saveShift(request: SaveShiftRequest): Observable<Response>;
     deleteShift(request: IdRequest): Observable<Response>;
     getShifts(request: IdRequest): Observable<ListResponse>;
@@ -94,9 +91,6 @@ export interface RiderServiceController {
     activate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     deactivate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
-    saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-    getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-    getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
     saveShift(request: SaveShiftRequest): Promise<Response> | Observable<Response> | Response;
     deleteShift(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     getShifts(request: IdRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;

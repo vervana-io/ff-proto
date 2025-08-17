@@ -22,9 +22,9 @@ service RiderService {
     rpc Activate(common.IdRequest) returns (common.Response);
     rpc Deactivate(common.IdRequest) returns (common.Response);
     rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
-    rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
-    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
-    rpc GetBankAccount(common.GetRequest) returns (common.Response);
+    //rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+    //rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    //rpc GetBankAccount(common.GetRequest) returns (common.Response);
 
     rpc SaveShift(SaveShiftRequest) returns (common.Response);
     rpc DeleteShift(common.IdRequest) returns (common.Response);

@@ -23,9 +23,9 @@ service VendorService {
     rpc Deactivate(common.IdRequest) returns (common.Response);
     rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
 
-    rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
-    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
-    rpc GetBankAccount(common.GetRequest) returns (common.Response);
+    //rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+    //rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    //rpc GetBankAccount(common.GetRequest) returns (common.Response);
 
     rpc SaveFranchise(SaveFranchiseRequest) returns (common.Response);
     //Personnel

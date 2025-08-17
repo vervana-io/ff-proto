@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
-import { Empty, GetRequest, IdRequest, ListResponse, Response } from "../common/common";
+import { Empty, GetRequest, IdRequest, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
-import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SaveBankAccountRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
+import { Address, ChangePasswordRequest, CheckUserRequest, LoginRequest, ResetPasswordRequest, SendTokenRequest, UpdateSettingsRequest, VerifyRequest } from "../users/user";
 export declare const protobufPackage = "vendors";
 export interface SaveVendorRequest {
     id?: string | undefined;
@@ -72,9 +72,6 @@ export interface VendorServiceClient {
     activate(request: IdRequest): Observable<Response>;
     deactivate(request: IdRequest): Observable<Response>;
     updateSettings(request: UpdateSettingsRequest): Observable<Response>;
-    saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-    getBankAccounts(request: GetRequest): Observable<ListResponse>;
-    getBankAccount(request: GetRequest): Observable<Response>;
     saveFranchise(request: SaveFranchiseRequest): Observable<Response>;
     savePersonnel(request: Empty): Observable<Response>;
 }
@@ -96,9 +93,6 @@ export interface VendorServiceController {
     activate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     deactivate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
     updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
-    saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-    getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-    getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
     saveFranchise(request: SaveFranchiseRequest): Promise<Response> | Observable<Response> | Response;
     savePersonnel(request: Empty): Promise<Response> | Observable<Response> | Response;
 }

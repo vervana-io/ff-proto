@@ -15,7 +15,6 @@ import {
   CheckUserRequest,
   LoginRequest,
   ResetPasswordRequest,
-  SaveBankAccountRequest,
   SendTokenRequest,
   UpdateSettingsRequest,
   VerifyRequest,
@@ -110,13 +109,13 @@ export interface RiderServiceClient {
 
   deactivate(request: IdRequest): Observable<Response>;
 
+  /**
+   * rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+   * rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+   * rpc GetBankAccount(common.GetRequest) returns (common.Response);
+   */
+
   updateSettings(request: UpdateSettingsRequest): Observable<Response>;
-
-  saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-
-  getBankAccounts(request: GetRequest): Observable<ListResponse>;
-
-  getBankAccount(request: GetRequest): Observable<Response>;
 
   saveShift(request: SaveShiftRequest): Observable<Response>;
 
@@ -162,13 +161,13 @@ export interface RiderServiceController {
 
   deactivate(request: IdRequest): Promise<Response> | Observable<Response> | Response;
 
+  /**
+   * rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
+   * rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+   * rpc GetBankAccount(common.GetRequest) returns (common.Response);
+   */
+
   updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
-
-  saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-
-  getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-
-  getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
 
   saveShift(request: SaveShiftRequest): Promise<Response> | Observable<Response> | Response;
 
@@ -197,9 +196,6 @@ export function RiderServiceControllerMethods() {
       "activate",
       "deactivate",
       "updateSettings",
-      "saveBankAccount",
-      "getBankAccounts",
-      "getBankAccount",
       "saveShift",
       "deleteShift",
       "getShifts",

@@ -7,7 +7,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Empty, GetRequest, IdRequest, ListResponse, Response } from "../common/common";
+import { Empty, GetRequest, IdRequest, Response } from "../common/common";
 import { HealthCheckRequest, HealthCheckResponse } from "../healthcheck/healthcheck";
 import {
   Address,
@@ -15,7 +15,6 @@ import {
   CheckUserRequest,
   LoginRequest,
   ResetPasswordRequest,
-  SaveBankAccountRequest,
   SendTokenRequest,
   UpdateSettingsRequest,
   VerifyRequest,
@@ -114,12 +113,6 @@ export interface VendorServiceClient {
 
   updateSettings(request: UpdateSettingsRequest): Observable<Response>;
 
-  saveBankAccount(request: SaveBankAccountRequest): Observable<Response>;
-
-  getBankAccounts(request: GetRequest): Observable<ListResponse>;
-
-  getBankAccount(request: GetRequest): Observable<Response>;
-
   saveFranchise(request: SaveFranchiseRequest): Observable<Response>;
 
   /** Personnel */
@@ -166,12 +159,6 @@ export interface VendorServiceController {
 
   updateSettings(request: UpdateSettingsRequest): Promise<Response> | Observable<Response> | Response;
 
-  saveBankAccount(request: SaveBankAccountRequest): Promise<Response> | Observable<Response> | Response;
-
-  getBankAccounts(request: GetRequest): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
-
-  getBankAccount(request: GetRequest): Promise<Response> | Observable<Response> | Response;
-
   saveFranchise(request: SaveFranchiseRequest): Promise<Response> | Observable<Response> | Response;
 
   /** Personnel */
@@ -199,9 +186,6 @@ export function VendorServiceControllerMethods() {
       "activate",
       "deactivate",
       "updateSettings",
-      "saveBankAccount",
-      "getBankAccounts",
-      "getBankAccount",
       "saveFranchise",
       "savePersonnel",
     ];
