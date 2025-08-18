@@ -146,7 +146,7 @@ export interface GetRiderLocationResponse {
 export const LOCATIONS_PACKAGE_NAME = "locations";
 
 export interface LocationServiceClient {
-  saveAddress(request: SaveCustomerAddressRequest): Observable<Response>;
+  saveAddress(request: SaveAddressRequest): Observable<Response>;
 
   updateRiderLocation(request: UpdateRiderLocationRequest): Observable<Response>;
 
@@ -158,7 +158,7 @@ export interface LocationServiceClient {
 }
 
 export interface LocationServiceController {
-  saveAddress(request: SaveCustomerAddressRequest): Promise<Response> | Observable<Response> | Response;
+  saveAddress(request: SaveAddressRequest): Promise<Response> | Observable<Response> | Response;
 
   updateRiderLocation(request: UpdateRiderLocationRequest): Promise<Response> | Observable<Response> | Response;
 

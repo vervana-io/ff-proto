@@ -121,14 +121,14 @@ export interface GetRiderLocationResponse {
 }
 export declare const LOCATIONS_PACKAGE_NAME = "locations";
 export interface LocationServiceClient {
-    saveAddress(request: SaveCustomerAddressRequest): Observable<Response>;
+    saveAddress(request: SaveAddressRequest): Observable<Response>;
     updateRiderLocation(request: UpdateRiderLocationRequest): Observable<Response>;
     getAvailableRiders(request: GetAvailableRidersRequest): Observable<GetRiderLocationResponse>;
     getCustomerAddress(request: GetRequest): Observable<GetCustomerLocationResponse>;
     getVendorsByLocation(request: Location): Observable<GetVendorLocationResponse>;
 }
 export interface LocationServiceController {
-    saveAddress(request: SaveCustomerAddressRequest): Promise<Response> | Observable<Response> | Response;
+    saveAddress(request: SaveAddressRequest): Promise<Response> | Observable<Response> | Response;
     updateRiderLocation(request: UpdateRiderLocationRequest): Promise<Response> | Observable<Response> | Response;
     getAvailableRiders(request: GetAvailableRidersRequest): Promise<GetRiderLocationResponse> | Observable<GetRiderLocationResponse> | GetRiderLocationResponse;
     getCustomerAddress(request: GetRequest): Promise<GetCustomerLocationResponse> | Observable<GetCustomerLocationResponse> | GetCustomerLocationResponse;

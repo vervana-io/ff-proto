@@ -2,7 +2,7 @@ syntax = "proto3";
 package locations;
 import "common/common.proto";
 service LocationService{
-    rpc SaveAddress(SaveCustomerAddressRequest) returns (common.Response);
+    rpc SaveAddress(SaveAddressRequest) returns (common.Response);
     rpc UpdateRiderLocation(UpdateRiderLocationRequest) returns (common.Response);
     rpc GetAvailableRiders(GetAvailableRidersRequest) returns (GetRiderLocationResponse);
     rpc GetCustomerAddress(common.GetRequest) returns (GetCustomerLocationResponse);
