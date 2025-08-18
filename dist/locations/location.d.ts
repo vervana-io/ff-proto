@@ -13,7 +13,6 @@ export interface Address {
     city?: string | undefined;
     state?: string | undefined;
     country?: string | undefined;
-    isPrimary: boolean;
     metadata: {
         [key: string]: string;
     };
