@@ -21,7 +21,6 @@ message Address {
     optional string city = 7;
     optional string state = 8;
     optional string country = 9;
-    bool is_primary = 12;
     map<string, string> metadata = 13;
 
 }
