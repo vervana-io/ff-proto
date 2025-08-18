@@ -14,13 +14,13 @@ message Owner {
     string type = 2;
 }
 message Address {
-    Owner owner = 1;
+    optional Owner owner = 1;
     Location location = 2;
-    string street = 3;
-    string nearest_bus_stop = 4;
-    string city = 7;
-    string state = 8;
-    string country = 9;
+    optional string street = 3;
+    optional string nearest_bus_stop = 4;
+    optional string city = 7;
+    optional string state = 8;
+    optional string country = 9;
     bool is_primary = 12;
     map<string, string> metadata = 13;
 
@@ -80,10 +80,10 @@ message GetUserAddressRequest {
 }
 message VendorLocation {
     string vendor_id = 1;
-    Location location = 2;
+    optional Location location = 2;
     string address_label = 3;
-    Address address = 4;
-    string grid_id = 5;
+   optional Address address = 4;
+    optional string grid_id = 5;
 }
 
 message GetVendorLocationResponse {
@@ -91,16 +91,16 @@ message GetVendorLocationResponse {
     string message = 2;
     optional string error = 3;
     repeated VendorLocation vendors = 4;
-    VendorLocation vendor = 5;
+    optional VendorLocation vendor = 5;
 }
 
 message CustomerLocation {
     string customer_id = 1;
-    Location location = 2;
-    Address address = 3;
+    optional Location location = 2;
+    optional Address address = 3;
     bool is_primary = 4;
-    string address_label = 5;
-    string grid_id = 6;
+    optional string address_label = 5;
+    optional string grid_id = 6;
 }
 
 message GetCustomerLocationResponse {
@@ -108,21 +108,21 @@ message GetCustomerLocationResponse {
     string message = 2;
     optional string error = 3;
     repeated CustomerLocation customers = 4;
-    CustomerLocation customer = 5;
+    optional CustomerLocation customer = 5;
 }
 
 message RiderLocation {
     string rider_id = 1;
-    Location location = 2;
+    optional Location location = 2;
     bool available = 4;
-    string grid_id = 5;
-    string formated_address = 6;
+    optional string grid_id = 5;
+    optional string formated_address = 6;
 }
 message GetRiderLocationResponse {
     int32 status = 1;
     string message = 2;
     optional string error = 3;
     repeated RiderLocation riders = 4;
-    RiderLocation rider = 5;
+    optional RiderLocation rider = 5;
 }
 

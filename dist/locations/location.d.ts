@@ -6,13 +6,13 @@ export interface Owner {
     type: string;
 }
 export interface Address {
-    owner: Owner | undefined;
+    owner?: Owner | undefined;
     location: Location | undefined;
-    street: string;
-    nearestBusStop: string;
-    city: string;
-    state: string;
-    country: string;
+    street?: string | undefined;
+    nearestBusStop?: string | undefined;
+    city?: string | undefined;
+    state?: string | undefined;
+    country?: string | undefined;
     isPrimary: boolean;
     metadata: {
         [key: string]: string;
@@ -78,46 +78,46 @@ export interface GetUserAddressRequest {
 }
 export interface VendorLocation {
     vendorId: string;
-    location: Location | undefined;
+    location?: Location | undefined;
     addressLabel: string;
-    address: Address | undefined;
-    gridId: string;
+    address?: Address | undefined;
+    gridId?: string | undefined;
 }
 export interface GetVendorLocationResponse {
     status: number;
     message: string;
     error?: string | undefined;
     vendors: VendorLocation[];
-    vendor: VendorLocation | undefined;
+    vendor?: VendorLocation | undefined;
 }
 export interface CustomerLocation {
     customerId: string;
-    location: Location | undefined;
-    address: Address | undefined;
+    location?: Location | undefined;
+    address?: Address | undefined;
     isPrimary: boolean;
-    addressLabel: string;
-    gridId: string;
+    addressLabel?: string | undefined;
+    gridId?: string | undefined;
 }
 export interface GetCustomerLocationResponse {
     status: number;
     message: string;
     error?: string | undefined;
     customers: CustomerLocation[];
-    customer: CustomerLocation | undefined;
+    customer?: CustomerLocation | undefined;
 }
 export interface RiderLocation {
     riderId: string;
-    location: Location | undefined;
+    location?: Location | undefined;
     available: boolean;
-    gridId: string;
-    formatedAddress: string;
+    gridId?: string | undefined;
+    formatedAddress?: string | undefined;
 }
 export interface GetRiderLocationResponse {
     status: number;
     message: string;
     error?: string | undefined;
     riders: RiderLocation[];
-    rider: RiderLocation | undefined;
+    rider?: RiderLocation | undefined;
 }
 export declare const LOCATIONS_PACKAGE_NAME = "locations";
 export interface LocationServiceClient {
