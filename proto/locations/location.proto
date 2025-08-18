@@ -36,9 +36,10 @@ message GetAvailableRidersRequest {
 }
 
 message Location {
-    float latitude = 2;
-    float longitude = 3;
-    string formated_address = 4;
+    optional float latitude = 2;
+    optional float longitude = 3;
+    optional string formated_address = 4;
+    repeated float coordinates = 5;
 }
 
 message SaveAddressRequest {

@@ -32,9 +32,10 @@ export interface GetAvailableRidersRequest {
     excludes: string[];
 }
 export interface Location {
-    latitude: number;
-    longitude: number;
-    formatedAddress: string;
+    latitude?: number | undefined;
+    longitude?: number | undefined;
+    formatedAddress?: string | undefined;
+    coordinates: number[];
 }
 export interface SaveAddressRequest {
     location: Location | undefined;
