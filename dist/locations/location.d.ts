@@ -40,12 +40,12 @@ export interface Location {
 }
 export interface SaveAddressRequest {
     location: Location | undefined;
-    houseNumber: string;
-    street: string;
-    nearestBusStop: string;
-    city: string;
-    state: string;
-    country: string;
+    houseNumber?: string | undefined;
+    street?: string | undefined;
+    nearestBusStop?: string | undefined;
+    city?: string | undefined;
+    state?: string | undefined;
+    country?: string | undefined;
     customerAddress?: SaveCustomerAddressRequest | undefined;
     vendorAddress?: SaveVendorAddressRequest | undefined;
     riderAddress?: SaveRiderAddressRequest | undefined;

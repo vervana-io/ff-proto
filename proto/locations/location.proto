@@ -51,12 +51,12 @@ message Location {
 
 message SaveAddressRequest {
     Location location = 1;
-    string house_number = 2;
-    string street = 3;
-    string nearest_bus_stop = 4;
-    string city = 7;
-    string state = 8;
-    string country = 9;
+    optional string house_number = 2;
+    optional string street = 3;
+    optional string nearest_bus_stop = 4;
+    optional string city = 7;
+    optional string state = 8;
+    optional string country = 9;
     optional SaveCustomerAddressRequest customer_address = 10;
     optional SaveVendorAddressRequest vendor_address = 11;
     optional SaveRiderAddressRequest rider_address = 12;
