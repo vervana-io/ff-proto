@@ -1,0 +1,128 @@
+syntax = "proto3";
+package locations;
+import "common/common.proto";
+service LocationService{
+    rpc SaveAddress(SaveCustomerAddressRequest) returns (common.Response);
+    rpc UpdateRiderLocation(UpdateRiderLocationRequest) returns (common.Response);
+    rpc GetAvailableRiders(GetAvailableRidersRequest) returns (GetRiderLocationResponse);
+    rpc GetCustomerAddress(common.GetRequest) returns (GetCustomerLocationResponse);
+    rpc GetVendorsByLocation(Location) returns (GetVendorLocationResponse);
+}
+
+message Owner {
+    string id = 1;
+    string type = 2;
+}
+message Address {
+    Owner owner = 1;
+    Location location = 2;
+    string street = 3;
+    string nearest_bus_stop = 4;
+    string city = 7;
+    string state = 8;
+    string country = 9;
+    bool is_primary = 12;
+    map<string, string> metadata = 13;
+
+}
+message UpdateRiderLocationRequest {
+    string rider_id = 1;
+    float lat = 2;
+    float long = 3;
+}
+message GetAvailableRidersRequest {
+    float lat = 1;
+    float long = 2;
+    repeated string excludes = 3;
+}
+
+message Location {
+    float latitude = 2;
+    float longitude = 3;
+    string formated_address = 4;
+}
+
+message SaveAddressRequest {
+    Location location = 1;
+    string house_number = 2;
+    string street = 3;
+    string nearest_bus_stop = 4;
+    string city = 7;
+    string state = 8;
+    string country = 9;
+    optional SaveCustomerAddressRequest customer_address = 10;
+    optional SaveVendorAddressRequest vendor_address = 11;
+    optional SaveRiderAddressRequest rider_address = 12;
+}
+message SaveCustomerAddressRequest {
+    string customer_id = 2;
+    optional string label = 3;
+    bool is_primary = 12;
+}
+message SaveRiderAddressRequest {
+    string rider_id = 2;
+
+}
+message SaveVendorAddressRequest {
+    string vendor_id = 1;
+    optional string label = 2;
+    optional string contact_phone = 3;
+    optional string contact_email = 4;
+    optional double delivery_radius = 5;
+    optional double average_prep_time = 6;
+    map<string, string> metadata = 7;
+
+}
+
+message GetUserAddressRequest {
+    string user = 1;
+    string user_type = 2;
+}
+message VendorLocation {
+    string vendor_id = 1;
+    Location location = 2;
+    string address_label = 3;
+    Address address = 4;
+    string grid_id = 5;
+}
+
+message GetVendorLocationResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    repeated VendorLocation vendors = 4;
+    VendorLocation vendor = 5;
+}
+
+message CustomerLocation {
+    string customer_id = 1;
+    Location location = 2;
+    Address address = 3;
+    bool is_primary = 4;
+    string address_label = 5;
+    string grid_id = 6;
+}
+
+message GetCustomerLocationResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    repeated CustomerLocation customers = 4;
+    CustomerLocation customer = 5;
+}
+
+message RiderLocation {
+    string rider_id = 1;
+    Location location = 2;
+    bool available = 4;
+    string grid_id = 5;
+    string formated_address = 6;
+}
+message GetRiderLocationResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    repeated RiderLocation riders = 4;
+    RiderLocation rider = 5;
+}
+

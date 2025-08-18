@@ -7,7 +7,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Empty, IdRequest, ListResponse, Response } from "../common/common";
+import { Empty, GetRequest, IdRequest, ListResponse, Response } from "../common/common";
 import { HealthCheckResponse } from "../healthcheck/healthcheck";
 
 export const protobufPackage = "users";
@@ -216,10 +216,6 @@ export interface SaveCustomerRequest {
   deviceToken: string;
   deviceVersion: string;
   referral: string;
-}
-
-export interface GetRequest {
-  id: string;
 }
 
 export interface LoginRequest {

@@ -10,14 +10,14 @@ service UserService {
     rpc VerifyUser(VerifyRequest) returns (common.Response);
     rpc SendTokenVerification(SendTokenRequest) returns (common.Response);
     rpc Login(LoginRequest) returns (UserResponse);
-    rpc GetUser(GetRequest) returns (UserResponse);
-    rpc GetUsers(GetRequest) returns (UserResponse);
+    rpc GetUser(common.GetRequest) returns (UserResponse);
+    rpc GetUsers(common.GetRequest) returns (UserResponse);
     rpc UserOAuthProvider(CustomerOAuthProviderRequest) returns (UserResponse);
     rpc ChangePassword(ChangePasswordRequest) returns (common.Response);
     rpc UpdateSettings(UpdateSettingsRequest) returns (common.Response);
     rpc SaveBankAccount(SaveBankAccountRequest) returns (common.Response);
-    rpc GetBankAccounts(GetRequest) returns (common.ListResponse);
-    rpc GetBankAccount(GetRequest) returns (common.Response);
+    rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
+    rpc GetBankAccount(common.GetRequest) returns (common.Response);
     rpc ResetPasswordVerification(ResetPasswordRequest) returns (common.Response);
     rpc DeleteUser(common.IdRequest) returns (common.Response);
     rpc ApproveUser(common.IdRequest) returns (common.Response);
@@ -27,9 +27,9 @@ service UserService {
     //Customers
 
     rpc SaveCategory(SaveCategoryRequest) returns (common.Response);
-    rpc GetCategory(GetRequest) returns (common.Response);
-    rpc GetCategories(GetRequest) returns (common.ListResponse);
-    rpc DeleteCategory(GetRequest) returns (common.Response);
+    rpc GetCategory(common.GetRequest) returns (common.Response);
+    rpc GetCategories(common.GetRequest) returns (common.ListResponse);
+    rpc DeleteCategory(common.GetRequest) returns (common.Response);
     
 }
 message AddressList {
@@ -184,11 +184,6 @@ message SaveCustomerRequest {
     string deviceToken = 8;
     string deviceVersion = 9;
     string referral = 10;
-}
-
-
-message GetRequest {
-    string id = 1;
 }
 
 enum UserType {
