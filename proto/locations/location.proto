@@ -86,6 +86,7 @@ message VendorLocation {
    optional Address address = 4;
     optional string grid_id = 5;
     string id = 6;
+    optional double distance = 7;
 }
 
 message GetVendorLocationResponse {
@@ -121,6 +122,7 @@ message RiderLocation {
     optional string grid_id = 5;
     optional string formated_address = 6;
     string id = 7;
+    optional double distance = 8;
 }
 message GetRiderLocationResponse {
     int32 status = 1;

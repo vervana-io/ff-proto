@@ -84,6 +84,7 @@ export interface VendorLocation {
     address?: Address | undefined;
     gridId?: string | undefined;
     id: string;
+    distance?: number | undefined;
 }
 export interface GetVendorLocationResponse {
     status: number;
@@ -115,6 +116,7 @@ export interface RiderLocation {
     gridId?: string | undefined;
     formatedAddress?: string | undefined;
     id: string;
+    distance?: number | undefined;
 }
 export interface GetRiderLocationResponse {
     status: number;
