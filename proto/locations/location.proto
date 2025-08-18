@@ -18,6 +18,7 @@ message Address {
     Location location = 2;
     optional string street = 3;
     optional string nearest_bus_stop = 4;
+    string id = 5;
     optional string city = 7;
     optional string state = 8;
     optional string country = 9;
@@ -84,6 +85,7 @@ message VendorLocation {
     string address_label = 3;
    optional Address address = 4;
     optional string grid_id = 5;
+    string id = 6;
 }
 
 message GetVendorLocationResponse {
@@ -101,6 +103,7 @@ message CustomerLocation {
     bool is_primary = 4;
     optional string address_label = 5;
     optional string grid_id = 6;
+    string id = 7;
 }
 
 message GetCustomerLocationResponse {
@@ -117,6 +120,7 @@ message RiderLocation {
     bool available = 4;
     optional string grid_id = 5;
     optional string formated_address = 6;
+    string id = 7;
 }
 message GetRiderLocationResponse {
     int32 status = 1;

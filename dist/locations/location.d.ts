@@ -10,6 +10,7 @@ export interface Address {
     location: Location | undefined;
     street?: string | undefined;
     nearestBusStop?: string | undefined;
+    id: string;
     city?: string | undefined;
     state?: string | undefined;
     country?: string | undefined;
@@ -82,6 +83,7 @@ export interface VendorLocation {
     addressLabel: string;
     address?: Address | undefined;
     gridId?: string | undefined;
+    id: string;
 }
 export interface GetVendorLocationResponse {
     status: number;
@@ -97,6 +99,7 @@ export interface CustomerLocation {
     isPrimary: boolean;
     addressLabel?: string | undefined;
     gridId?: string | undefined;
+    id: string;
 }
 export interface GetCustomerLocationResponse {
     status: number;
@@ -111,6 +114,7 @@ export interface RiderLocation {
     available: boolean;
     gridId?: string | undefined;
     formatedAddress?: string | undefined;
+    id: string;
 }
 export interface GetRiderLocationResponse {
     status: number;
