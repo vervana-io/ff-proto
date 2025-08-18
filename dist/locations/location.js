@@ -9,10 +9,15 @@ function LocationServiceControllerMethods() {
     return function (constructor) {
         const grpcMethods = [
             "saveAddress",
+            "deleteAddress",
             "updateRiderLocation",
             "getAvailableRiders",
-            "getCustomerAddress",
+            "getCustomerLocation",
+            "getCustomerLocations",
+            "getVendorLocations",
+            "getVendorsLocations",
             "getVendorsByLocation",
+            "getVendorLocation",
         ];
         for (const method of grpcMethods) {
             const descriptor = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

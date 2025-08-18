@@ -7,7 +7,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { GetRequest, Response } from "../common/common";
+import { GetRequest, IdRequest, Response } from "../common/common";
 
 export const protobufPackage = "locations";
 
@@ -63,6 +63,7 @@ export interface SaveAddressRequest {
   customerAddress?: SaveCustomerAddressRequest | undefined;
   vendorAddress?: SaveVendorAddressRequest | undefined;
   riderAddress?: SaveRiderAddressRequest | undefined;
+  id?: string | undefined;
 }
 
 export interface SaveCustomerAddressRequest {
@@ -154,17 +155,29 @@ export const LOCATIONS_PACKAGE_NAME = "locations";
 export interface LocationServiceClient {
   saveAddress(request: SaveAddressRequest): Observable<Response>;
 
+  deleteAddress(request: IdRequest): Observable<Response>;
+
   updateRiderLocation(request: UpdateRiderLocationRequest): Observable<Response>;
 
   getAvailableRiders(request: GetAvailableRidersRequest): Observable<GetRiderLocationResponse>;
 
-  getCustomerAddress(request: GetRequest): Observable<GetCustomerLocationResponse>;
+  getCustomerLocation(request: GetRequest): Observable<GetCustomerLocationResponse>;
+
+  getCustomerLocations(request: GetRequest): Observable<GetCustomerLocationResponse>;
+
+  getVendorLocations(request: GetRequest): Observable<GetCustomerLocationResponse>;
+
+  getVendorsLocations(request: GetRequest): Observable<GetCustomerLocationResponse>;
 
   getVendorsByLocation(request: Location): Observable<GetVendorLocationResponse>;
+
+  getVendorLocation(request: GetRequest): Observable<GetVendorLocationResponse>;
 }
 
 export interface LocationServiceController {
   saveAddress(request: SaveAddressRequest): Promise<Response> | Observable<Response> | Response;
+
+  deleteAddress(request: IdRequest): Promise<Response> | Observable<Response> | Response;
 
   updateRiderLocation(request: UpdateRiderLocationRequest): Promise<Response> | Observable<Response> | Response;
 
@@ -172,12 +185,28 @@ export interface LocationServiceController {
     request: GetAvailableRidersRequest,
   ): Promise<GetRiderLocationResponse> | Observable<GetRiderLocationResponse> | GetRiderLocationResponse;
 
-  getCustomerAddress(
+  getCustomerLocation(
+    request: GetRequest,
+  ): Promise<GetCustomerLocationResponse> | Observable<GetCustomerLocationResponse> | GetCustomerLocationResponse;
+
+  getCustomerLocations(
+    request: GetRequest,
+  ): Promise<GetCustomerLocationResponse> | Observable<GetCustomerLocationResponse> | GetCustomerLocationResponse;
+
+  getVendorLocations(
+    request: GetRequest,
+  ): Promise<GetCustomerLocationResponse> | Observable<GetCustomerLocationResponse> | GetCustomerLocationResponse;
+
+  getVendorsLocations(
     request: GetRequest,
   ): Promise<GetCustomerLocationResponse> | Observable<GetCustomerLocationResponse> | GetCustomerLocationResponse;
 
   getVendorsByLocation(
     request: Location,
+  ): Promise<GetVendorLocationResponse> | Observable<GetVendorLocationResponse> | GetVendorLocationResponse;
+
+  getVendorLocation(
+    request: GetRequest,
   ): Promise<GetVendorLocationResponse> | Observable<GetVendorLocationResponse> | GetVendorLocationResponse;
 }
 
@@ -185,10 +214,15 @@ export function LocationServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
       "saveAddress",
+      "deleteAddress",
       "updateRiderLocation",
       "getAvailableRiders",
-      "getCustomerAddress",
+      "getCustomerLocation",
+      "getCustomerLocations",
+      "getVendorLocations",
+      "getVendorsLocations",
       "getVendorsByLocation",
+      "getVendorLocation",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

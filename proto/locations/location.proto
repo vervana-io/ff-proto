@@ -3,10 +3,16 @@ package locations;
 import "common/common.proto";
 service LocationService{
     rpc SaveAddress(SaveAddressRequest) returns (common.Response);
+    rpc DeleteAddress(common.IdRequest) returns (common.Response);
+
     rpc UpdateRiderLocation(UpdateRiderLocationRequest) returns (common.Response);
     rpc GetAvailableRiders(GetAvailableRidersRequest) returns (GetRiderLocationResponse);
-    rpc GetCustomerAddress(common.GetRequest) returns (GetCustomerLocationResponse);
+    rpc GetCustomerLocation(common.GetRequest) returns (GetCustomerLocationResponse);
+    rpc GetCustomerLocations(common.GetRequest) returns (GetCustomerLocationResponse);
+    rpc GetVendorLocations(common.GetRequest) returns (GetCustomerLocationResponse);
+    rpc GetVendorsLocations(common.GetRequest) returns (GetCustomerLocationResponse);
     rpc GetVendorsByLocation(Location) returns (GetVendorLocationResponse);
+    rpc GetVendorLocation(common.GetRequest) returns (GetVendorLocationResponse);
 }
 
 message Owner {
@@ -54,6 +60,7 @@ message SaveAddressRequest {
     optional SaveCustomerAddressRequest customer_address = 10;
     optional SaveVendorAddressRequest vendor_address = 11;
     optional SaveRiderAddressRequest rider_address = 12;
+    optional string id = 13;
 }
 message SaveCustomerAddressRequest {
     string customer_id = 2;
