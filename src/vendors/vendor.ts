@@ -130,7 +130,7 @@ export interface SaveProductRequest {
   unitLowLevel: number;
   isAllergies: boolean;
   allergies?: string | undefined;
-  status: number;
+  status: string;
   media: string[];
   addons: SaveProductRequest_Addon[];
 }

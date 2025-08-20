@@ -156,7 +156,7 @@ message SaveProductRequest {
     int32 unit_low_level = 12;
     bool is_allergies = 13;
     optional string allergies = 14;
-    int32 status = 15;
+    string status = 15;
     repeated string media = 16;
     message Media {
         optional string id = 1;
