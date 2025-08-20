@@ -157,7 +157,7 @@ message SaveProductRequest {
     bool is_allergies = 13;
     optional string allergies = 14;
     string status = 15;
-    repeated string media = 16;
+    repeated Media media = 16;
     message Media {
         optional string id = 1;
         string media = 2;

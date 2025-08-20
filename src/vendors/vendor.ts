@@ -131,7 +131,7 @@ export interface SaveProductRequest {
   isAllergies: boolean;
   allergies?: string | undefined;
   status: string;
-  media: string[];
+  media: SaveProductRequest_Media[];
   addons: SaveProductRequest_Addon[];
 }
 
