@@ -40,14 +40,6 @@ message AddressList {
 
 }
 
-message GetListRequest {
-    string query = 1;
-    map<string, string > filters = 2;
-    int32 page = 3;
-    int32 size = 4;
-    optional string user_id = 5;
-}
-
 message SaveCategoryRequest {
     optional string id = 1;
     string user_id = 2;

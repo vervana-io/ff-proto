@@ -1,8 +1,13 @@
 syntax = "proto3";
 package vendors;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 import "users/user.proto";
 import "common/common.proto";
+import "locations/location.proto";
 import "healthcheck/healthcheck.proto";
+
 service VendorService {
     rpc HealthCheck(grpc.health.v1.HealthCheckRequest) returns (grpc.health.v1.HealthCheckResponse);
     rpc CreateVendor(SaveVendorRequest) returns (common.Response);
@@ -23,15 +28,295 @@ service VendorService {
     rpc Deactivate(common.IdRequest) returns (common.Response);
     rpc UpdateSettings(users.UpdateSettingsRequest) returns (common.Response);
 
-    //rpc SaveBankAccount(users.SaveBankAccountRequest) returns (common.Response);
-    //rpc GetBankAccounts(common.GetRequest) returns (common.ListResponse);
-    //rpc GetBankAccount(common.GetRequest) returns (common.Response);
-
     rpc SaveFranchise(SaveFranchiseRequest) returns (common.Response);
     //Personnel
     rpc SavePersonnel(common.Empty) returns (common.Response);
+    //Food and Product
+    rpc SaveFoodClass (SaveFoodClassRequest) returns (common.Response);
+    rpc GetFoodClass (common.GetRequest) returns (common.Response);
+    rpc GetFoodClasses(common.GetRequest) returns (ListResponse);
+    rpc DeleteFoodClass (common.GetRequest) returns (common.Response);
+
+    rpc SaveCategory (SaveCategoryRequest) returns (common.Response);
+    rpc GetCategory (common.GetRequest) returns (common.Response);
+    rpc DeleteCategory (common.GetRequest) returns (common.Response);
+    rpc GetCategories (common.GetListRequest) returns (ListResponse);
+    
+    rpc SaveProduct (SaveProductRequest) returns (common.Response);
+    rpc GetProduct (common.GetRequest) returns (ProductResponse);
+    rpc DeleteProduct (common.GetRequest) returns (common.Response);
+    rpc GetProducts (common.GetListRequest) returns (ProductListResponse);
+    rpc GetProductRecommendation(common.GetListRequest) returns (ProductListResponse);
+    //rpc AddProductReview(ProductReviewRequest) returns (common.Response);
+
+    rpc SaveCoupon(SaveCouponRequest) returns (common.Response);
+
+}
+
+message FoodClass {
+    string id = 1;
+    optional string name = 2;
+    optional string description = 3;
+    optional int32 status = 4;
+    optional string created_by = 5;
+    optional string updated_by = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+}
+
+message SaveFoodClassRequest {
+    optional string id = 1; // Optional ID for update, absent for create
+    optional string name = 2;
+    optional string description = 3;
+    optional int32 status = 4;
 }
 //
+// Messages for Category entity
+message Category {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string vendor_id = 4;
+    string category_id = 5;
+    string food_class_id = 6;
+    optional FoodClass food_class = 7;
+}
+
+message SaveCategoryRequest {
+    optional string id = 1; // Optional ID for update, absent for create
+    string name = 2;
+    string description = 3;
+    string vendor_id = 4;
+    string food_class_id = 5;
+    optional string parent_id = 6;
+}
+
+message ListResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    bool success = 4;
+    google.protobuf.ListValue data = 5;
+    int32 next_page_token = 6;
+}
+
+// Messages for Product entity
+message Product {
+    string id = 1;
+    string vendor_id = 2;
+    optional string category_id = 4;
+    optional string title = 5;
+    optional string description = 6;
+    int32 units = 7;
+    double price = 8;
+    double discount = 9;
+    int32 prep_time = 10;
+    optional string special_note = 11;
+    int32 unit_low_level = 12;
+    bool is_allergies = 13;
+    optional string allergies = 14;
+    int32 status = 15;
+    optional string created_by = 16;
+    optional string updated_by = 17;
+    optional string love_reactant_id = 18;
+    google.protobuf.Timestamp created_at = 19;
+    google.protobuf.Timestamp updated_at = 20;
+    Category category = 21;
+    optional Vendor vendor = 22;
+    repeated ProductAddonCategory product_addon_categories = 23;
+    message ProductAddonCategory {
+        string id = 1;
+        string name = 2;
+        string description = 3;
+        string status = 4;
+        bool required = 5;
+        repeated ProductAddon product_addons = 6;
+    }
+
+    message ProductAddon {
+        string id = 1;
+        string product_addon_category_id = 2;
+        string name = 3;
+        double price = 4;
+    }
+}
+
+
+message SaveProductRequest {
+    optional string id = 1; // Optional ID for update, absent for create
+    string vendor_id = 2;
+    optional string category_id = 4;
+    optional string title = 5;
+    optional string description = 6;
+    int32 units = 7;
+    double price = 8;
+    double discount = 9;
+    int32 prep_time = 10;
+    optional string special_note = 11;
+    int32 unit_low_level = 12;
+    bool is_allergies = 13;
+    optional string allergies = 14;
+    int32 status = 15;
+    repeated string media = 16;
+    message Media {
+        optional string id = 1;
+        string media = 2;
+    }
+    repeated Addon addons = 17;
+    message Addon {
+        string category_name = 1;
+        string description = 2;
+        bool required = 3;
+        repeated ProductAddon product_addons = 4;
+        optional string id = 5;
+        message ProductAddon {
+            string name = 1;
+            double price = 2;
+            optional string id = 3;
+        }
+    }
+}
+message DeleteProductRequest {
+    string id = 1;
+    string delete = 2; //addon, product, product addon, media
+
+}
+message ProductResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    bool success = 4;
+    Product data = 5;
+}
+
+message ProductListResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    bool success = 4;
+    repeated Product data = 5;
+    int32 next_page_token = 6;
+}
+
+message ProductAddon {
+    string id = 1;
+    string category_id = 2;
+    optional string name = 3;
+    double price = 4;
+    int32 status = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
+
+message SaveProductAddonRequest {
+    optional string id = 1; // Optional ID for update, absent for create
+    string category_id = 2;
+    optional string name = 3;
+    double price = 4;
+    int32 status = 5;
+}
+
+message GetProductAddonResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    bool success = 4;
+    ProductAddon product_addon = 5;
+}
+
+
+// Messages for CouponRedemption entity
+message CouponRedemption {
+    string id = 1;
+    string coupon_id = 2;
+    string user_id = 3;
+    google.protobuf.Timestamp redemption_date = 4;
+    int32 status = 5;
+    optional string created_by = 6;
+    optional string updated_by = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+
+// Messages for Coupon entity
+message Coupon {
+    string id = 1;
+    string code = 2;
+    optional string description = 3;
+    int32 discount_type = 4;
+    double discount_value = 5;
+    google.protobuf.Timestamp valid_from = 6;
+    google.protobuf.Timestamp valid_to = 7;
+    int32 usage_limit = 8;
+    int32 used_count = 9;
+    int32 status = 10;
+    optional string created_by = 11;
+    optional string updated_by = 12;
+    google.protobuf.Timestamp created_at = 13;
+    google.protobuf.Timestamp updated_at = 14;
+}
+
+message SaveCouponRequest {
+    optional string id = 1;
+    string coupon_type = 2;
+    string product_visibility = 3;
+    optional int32 extras = 4;
+    double discount_value = 5;
+    int32 max_redemptions = 6;
+    string start_at = 7;
+    string end_at = 8;
+    repeated string products = 9;
+}
+
+message GetCouponResponse {
+    int32 status = 1;
+    string message = 2;
+    optional string error = 3;
+    bool success = 4;
+    Coupon coupon = 5;
+}
+
+message SaveProductAddon {
+    string category_id = 1;
+    string name = 2;
+    int32 price = 3;
+    string id = 4;
+    message AddonCategory {
+        string product_id = 1;
+        string name = 2;
+        string description = 3;
+        bool required = 4;
+        optional string id = 5;
+    }
+}
+
+message Vendor {
+    string id = 1;
+    string status = 2;
+    optional string plan = 3;
+    optional int32 tier = 4;
+    string email = 5;
+    repeated string phones = 6;
+    string user_id = 7;
+    locations.Address address = 8;
+    string category_id = 10;
+    string business_name = 11;
+    optional string individual_full_name = 15;
+    string individual_address = 16;
+    optional string individual_selfie = 17;
+    optional string individual_identity_card = 18;
+    optional string business_email = 20;
+    string license_number = 21;
+    string opening_hours = 22;
+    string closing_hours = 23;
+    optional string business_logo = 27;
+    optional string business_thumbnail = 28;
+    optional string business_certificate = 29;
+    optional string business_memorandum = 30;
+    optional string business_utility_bill = 31;
+    optional string business_building = 32;
+}
 
 message SaveVendorRequest {
     optional string id = 5;

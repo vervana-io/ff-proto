@@ -26,19 +26,6 @@ export interface AddressList {
     success: boolean;
     message: string;
 }
-export interface GetListRequest {
-    query: string;
-    filters: {
-        [key: string]: string;
-    };
-    page: number;
-    size: number;
-    userId?: string | undefined;
-}
-export interface GetListRequest_FiltersEntry {
-    key: string;
-    value: string;
-}
 export interface SaveCategoryRequest {
     id?: string | undefined;
     userId: string;

@@ -27,6 +27,20 @@ function VendorServiceControllerMethods() {
             "updateSettings",
             "saveFranchise",
             "savePersonnel",
+            "saveFoodClass",
+            "getFoodClass",
+            "getFoodClasses",
+            "deleteFoodClass",
+            "saveCategory",
+            "getCategory",
+            "deleteCategory",
+            "getCategories",
+            "saveProduct",
+            "getProduct",
+            "deleteProduct",
+            "getProducts",
+            "getProductRecommendation",
+            "saveCoupon",
         ];
         for (const method of grpcMethods) {
             const descriptor = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

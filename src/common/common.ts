@@ -8,7 +8,6 @@
 
 export const protobufPackage = "common";
 
-/**  */
 export interface Empty {
 }
 
@@ -22,6 +21,19 @@ export interface IdRequest {
 }
 
 export interface IdRequest_MetadataEntry {
+  key: string;
+  value: string;
+}
+
+export interface GetListRequest {
+  query: string;
+  filters: { [key: string]: string };
+  page: number;
+  size: number;
+  userId?: string | undefined;
+}
+
+export interface GetListRequest_FiltersEntry {
   key: string;
   value: string;
 }
@@ -54,6 +66,15 @@ export interface ListResponse_List {
 export interface ListResponse_List_DataEntry {
   key: string;
   value: string;
+}
+
+export interface ListResponseStruct {
+  status: number;
+  message: string;
+  error?: string | undefined;
+  success: boolean;
+  data: Array<any> | undefined;
+  nextPageToken: number;
 }
 
 export const COMMON_PACKAGE_NAME = "common";
